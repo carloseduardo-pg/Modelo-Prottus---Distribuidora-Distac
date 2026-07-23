@@ -1,0 +1,88 @@
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Res,
+  Req,
+  UseGuards,
+  UnauthorizedException,
+} from '@nestjs/common';
+import type { Response, Request } from 'express';
+import { Throttle } from '@nestjs/throttler';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
+
+const isProd = process.env.NODE_ENV === 'production';
+
+type AuthedRequest = Request & { user: { userId: string } };
+
+function setAuthCookies(
+  res: Response,
+  accessToken: string,
+  refreshToken: string,
+) {
+  const common = {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: 'lax' as const,
+    path: '/',
+  };
+  res.cookie('access_token', accessToken, {
+    ...common,
+    maxAge: 15 * 60 * 1000,
+  });
+  res.cookie('refresh_token', refreshToken, {
+    ...common,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+}
+
+function clearAuthCookies(res: Response) {
+  res.clearCookie('access_token', { path: '/' });
+  res.clearCookie('refresh_token', { path: '/' });
+}
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly auth: AuthService) {}
+
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
+  @Post('login')
+  async login(
+    @Body() dto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.auth.login(dto);
+    setAuthCookies(res, result.accessToken, result.refreshToken);
+    return { user: result.user };
+  }
+
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
+  @Post('refresh')
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const token = req.cookies?.refresh_token as string | undefined;
+    if (!token) {
+      throw new UnauthorizedException('Refresh ausente');
+    }
+    const result = await this.auth.refresh(token);
+    setAuthCookies(res, result.accessToken, result.refreshToken);
+    return { user: result.user };
+  }
+
+  @Post('logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    clearAuthCookies(res);
+    return { ok: true };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  me(@Req() req: AuthedRequest) {
+    return this.auth.me(req.user.userId);
+  }
+}

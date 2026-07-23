@@ -1,0 +1,70 @@
+:root {
+  --brand-primary: #c02028;
+  --brand-primary-hover: #a01a20;
+  --brand-primary-active: #801418;
+  --brand-secondary: #60a0d8;
+  --brand-secondary-hover: #4a8ac4;
+  --brand-ink: #000000;
+  --header-bg: #ffffff;
+  --header-text: #000000;
+  --sidebar-bg: #1a2332;
+  --sidebar-active-bg: #c02028;
+  --page-bg: #f4f7fa;
+  --card-bg: #ffffff;
+  --filter-bar-bg: #e8f1f8;
+  --table-header-bg: #60a0d8;
+  --tile-bg: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --border-color: #d0d7de;
+  --info-banner: #e8f1f8;
+  --success: #2f9e44;
+  --warning: #f59f00;
+  --danger: #c02028;
+  --info: #60a0d8;
+  --neutral: #868e96;
+  --font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  --font-size-body: 14px;
+  --font-size-small: 12px;
+  --font-size-title: 16px;
+  --font-size-module: 18px;
+  --control-height: 32px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  background: var(--page-bg);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  margin: 0;
+  vertical-align: middle;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

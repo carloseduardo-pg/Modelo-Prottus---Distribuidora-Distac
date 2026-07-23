@@ -1,0 +1,55 @@
+---
+description: Regras do projeto Distac — base Prottus web (stack, domínio, segurança, escala)
+alwaysApply: true
+---
+
+# Projeto Distac — Regras específicas
+
+Complementa `.cursor/rules/prottus/`.  
+Este repo é o **produto Distac** e a **base web** para novos clientes Prottus.
+
+## Contexto
+- Sistema: vendas internas Distac
+- Usuários: vendedores internos
+- Cliente: Distribuidora Distac (material de construção — PE)
+- Desenvolvedora: Prottus
+- Logo: `imagens/distac.png`
+
+## Documentação (ler nesta ordem)
+- Base / reuse: `docs/projeto/USAR-COMO-BASE.md`
+- Segurança: `docs/projeto/seguranca.md` (**obrigatório**)
+- Escalabilidade: `docs/projeto/escalabilidade.md` (**obrigatório**)
+- Specs: `docs/projeto/especificacoes.md`
+- Domínio: `docs/projeto/mapa-entidades.md`
+- Status: `docs/projeto/modulos/STATUS_PROTOTIPO.md`
+- Banco/triggers: `database/info/triggers.md`
+- Testes: `tests/README.md`
+
+## Stack
+- Mono-repo: React+Vite+TS · NestJS+TS · Prisma · PostgreSQL local (**sem Docker**)
+- Auth: JWT access+refresh em cookie **httpOnly** (nunca localStorage)
+- Hardening: Helmet, Throttler (login limitado), ValidationPipe, CORS
+- Listagens: paginação; dashboard via summary
+
+## Segurança e dados sensíveis
+- Secrets só em `.env` (gitignored)
+- `password_hash` **omitido** em `audit_log`
+- Login sem credenciais pré-preenchidas
+- Não enfraquecer rate limit / httpOnly sem decisão documentada
+
+## Escalabilidade
+- Preferir paginação + agregações a “carregar tudo”
+- Cache/fila só com evidência — ver `docs/projeto/escalabilidade.md`
+
+## Domínio
+- Negócio: `cliente`, `produto`, `pedido`, `pedido_item`
+- Plataforma: `user`, `audit_log`
+- Status pedido: `rascunho` | `confirmado` | `cancelado`
+
+## Marca
+- Primário `#C02028` · Secundário `#60A0D8` · Header branco
+- Tipografia: Source Sans 3 · UI sem emojis
+
+## Apps
+- Specs: `docs/projeto/aplicacoes/`
+- Catálogo Prottus (equivalência): `docs/prottus/aplicacoes/`

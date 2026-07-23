@@ -1,0 +1,46 @@
+---
+description: Padrões Prottus para agentes — metodologia e qualidade (Scriptcase-first no catálogo de apps)
+alwaysApply: true
+---
+
+# Prottus — Regras da empresa
+
+Aplicável a **todos** os projetos. Stack/arquitetura: `docs/projeto/especificacoes.md` + `.cursor/rules/projeto/`.
+
+## Documentação mestra
+- Metodologia e qualidade: `docs/prottus/metodologia.md`
+- Design System (padrões UI): `docs/prottus/design-system.md`
+- Catálogo de aplicações (Scriptcase-first): `docs/prottus/aplicacoes/`
+- Defaults de apps do cliente: `docs/projeto/padrao-aplicacoes.md`
+- Mapa de entidades (abordagem): `docs/prottus/mapa-entidades.md`
+- Antes de UI: DS Prottus **e** `docs/projeto/design-system.md`
+- Antes de criar app: catálogo Prottus **e** `padrao-aplicacoes.md`
+- Antes de código: **ler** `docs/projeto/especificacoes.md` (stack, arquitetura, infra)
+- Tokens / tema: `var(--...)` ou tema Scriptcase alinhado aos tokens do projeto
+
+## Código e qualidade (universal)
+- Documentar toda função/API/componente exportado (JSDoc/docstring conforme a linguagem)
+- Manter índice de exports acordado no projeto (ex. FUNCTIONS.md)
+- Nunca usar mocks legados em features novas sem decisão explícita
+- Código/persistência em inglês; UI e docs de negócio em português
+- Segurança: sem secrets no Git; validar entradas; erros explícitos
+- Definition of Done: ver `docs/prottus/metodologia.md`
+
+## Sessões / agentes
+- Registrar trabalho significativo em `.cursor/agents/cursor-{usuario}.md`
+- Um arquivo por usuário em `agents/`
+
+## Visual (padrão empresa)
+- Zero emojis na UI de produto — ícones vetoriais
+- Títulos de módulo: UPPERCASE bold (apps de gestão / CRUD)
+- Cores de marca: `docs/projeto/design-system.md`
+
+## Descoberta
+- FAROL + DOP — `docs/projeto/requisitos/`
+
+## Módulos e aplicações
+- Playbook módulos: `.cursor/rules/prottus/desenvolvimento-modulos.mdc`
+- Playbook aplicações: `.cursor/rules/prottus/desenvolvimento-aplicacoes.mdc`
+- Specs módulos: `docs/projeto/modulos/`
+- Specs apps: `docs/projeto/aplicacoes/`
+- Detalhes técnicos da stack: `docs/projeto/especificacoes.md`
