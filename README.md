@@ -73,12 +73,16 @@ cd frontend && npm install && npm run dev
 
 Campos de login **não** vêm pré-preenchidos (segurança).
 
-### 5) Testes de carga / segurança
+### 5) Testes de carga / segurança (3 níveis)
 
 ```bash
-# API no ar
-node tests/load/run-node.mjs
+# API no ar — na raiz do projeto
+node tests/load/run-node.mjs smoke    # rápido
+node tests/load/run-node.mjs normal   # padrão
+node tests/load/run-node.mjs heavy    # stress
 ```
+
+Detalhes e leitura do terminal: [`tests/README.md`](tests/README.md).
 
 ---
 
