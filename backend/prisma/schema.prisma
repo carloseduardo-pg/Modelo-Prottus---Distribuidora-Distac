@@ -85,7 +85,7 @@ model PedidoItem {
 
 /// Auditoria DML — preenchida apenas por triggers (não gravar pela API).
 model AuditLog {
-  id          String   @id @default(uuid())
+  id          String   @id @default(dbgenerated("gen_random_uuid()::text"))
   tabela      String
   registroId  String?  @map("registro_id")
   operacao    String

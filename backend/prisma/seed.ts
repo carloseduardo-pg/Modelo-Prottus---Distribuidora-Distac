@@ -123,18 +123,31 @@ async function main() {
   const byCodigo = Object.fromEntries(produtos.map((p) => [p.codigo, p]));
   const byCnpj = Object.fromEntries(clientes.map((c) => [c.cnpj, c]));
 
-  // Remove pedidos de exemplo anteriores (marcados) e recria
+  // Remove pedidos de exemplo anteriores (marcados) e recria.
+  // Triggers bloqueiam alterar/apagar itens de cancelado — desliga só na limpeza do seed.
   const seedPedidos = await prisma.pedido.findMany({
     where: { observacao: { startsWith: SEED_TAG } },
     select: { id: true },
   });
   if (seedPedidos.length) {
-    await prisma.pedidoItem.deleteMany({
-      where: { pedidoId: { in: seedPedidos.map((p) => p.id) } },
-    });
-    await prisma.pedido.deleteMany({
-      where: { id: { in: seedPedidos.map((p) => p.id) } },
-    });
+    await prisma.$executeRawUnsafe(
+      'ALTER TABLE pedido_item DISABLE TRIGGER trg_pedido_item_biud_calc',
+    );
+    await prisma.$executeRawUnsafe(
+      'ALTER TABLE pedido DISABLE TRIGGER trg_pedido_bu_integridade',
+    );
+    try {
+      await prisma.pedido.deleteMany({
+        where: { id: { in: seedPedidos.map((p) => p.id) } },
+      });
+    } finally {
+      await prisma.$executeRawUnsafe(
+        'ALTER TABLE pedido ENABLE TRIGGER trg_pedido_bu_integridade',
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER TABLE pedido_item ENABLE TRIGGER trg_pedido_item_biud_calc',
+      );
+    }
   }
 
   async function criarPedido(opts: {
@@ -160,10 +173,16 @@ async function main() {
       itens.reduce((acc, i) => acc + Number(i.subtotal), 0).toFixed(2),
     );
 
-    return prisma.pedido.create({
+    // Itens só entram com pedido aberto; cancelado é aplicado depois (integridade no banco).
+    const statusInicial =
+      opts.status === PedidoStatus.cancelado
+        ? PedidoStatus.rascunho
+        : opts.status;
+
+    const criado = await prisma.pedido.create({
       data: {
         clienteId: cliente.id,
-        status: opts.status,
+        status: statusInicial,
         observacao: `${SEED_TAG} ${opts.observacao}`,
         total,
         data: opts.data ?? new Date(),
@@ -171,6 +190,15 @@ async function main() {
       },
       include: { itens: true, cliente: true },
     });
+
+    if (opts.status === PedidoStatus.cancelado) {
+      return prisma.pedido.update({
+        where: { id: criado.id },
+        data: { status: PedidoStatus.cancelado },
+        include: { itens: true, cliente: true },
+      });
+    }
+    return criado;
   }
 
   const p1 = await criarPedido({

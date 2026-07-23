@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Aplica migrations + seed de exemplos Distac
+# Aplica migrations pendentes + seed de exemplos Distac
+# Usa `migrate deploy` (não interativo) — evita migrations acidentais tipo "cadu".
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -15,9 +16,10 @@ if [ ! -f "$BACKEND/.env" ]; then
   fi
 fi
 
-echo "==> Distac migrate (Prisma)"
+echo "==> Distac migrate deploy (Prisma)"
 cd "$BACKEND"
-npx prisma migrate dev "$@"
+npx prisma migrate deploy
+npx prisma generate
 echo "OK  migrations aplicadas"
 
 echo "==> Distac seed (clientes, produtos, pedidos)"

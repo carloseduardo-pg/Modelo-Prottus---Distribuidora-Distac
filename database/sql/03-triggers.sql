@@ -25,6 +25,10 @@ CREATE TABLE IF NOT EXISTS audit_log (
   criado_em     TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- Garante DEFAULT mesmo se a tabela já existia sem ele (ex.: drift Prisma)
+ALTER TABLE audit_log
+  ALTER COLUMN id SET DEFAULT gen_random_uuid()::text;
+
 CREATE INDEX IF NOT EXISTS audit_log_tabela_criado_idx
   ON audit_log (tabela, criado_em DESC);
 
