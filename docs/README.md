@@ -10,6 +10,7 @@
 Comece por:
 
 1. [README da raiz](../README.md)  
-2. [projeto/seguranca.md](projeto/seguranca.md) · [projeto/escalabilidade.md](projeto/escalabilidade.md)  
-3. [projeto/USAR-COMO-BASE.md](projeto/USAR-COMO-BASE.md)  
-4. [projeto/modulos/STATUS_PROTOTIPO.md](projeto/modulos/STATUS_PROTOTIPO.md)
+2. [projeto/DOMINIO-TECNICO.md](projeto/DOMINIO-TECNICO.md) — **domínio técnico completo (tech lead)**  
+3. [projeto/seguranca.md](projeto/seguranca.md) · [projeto/escalabilidade.md](projeto/escalabilidade.md)  
+4. [projeto/USAR-COMO-BASE.md](projeto/USAR-COMO-BASE.md)  
+5. [projeto/modulos/STATUS_PROTOTIPO.md](projeto/modulos/STATUS_PROTOTIPO.md)

@@ -115,11 +115,13 @@ Guia curto: [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 
 | Tema | Link |
 |------|------|
+| **Domínio técnico (tech lead)** | [`docs/projeto/DOMINIO-TECNICO.md`](docs/projeto/DOMINIO-TECNICO.md) |
 | Contexto | [`docs/projeto/contexto.md`](docs/projeto/contexto.md) |
 | Specs técnicas | [`docs/projeto/especificacoes.md`](docs/projeto/especificacoes.md) |
 | **Segurança** | [`docs/projeto/seguranca.md`](docs/projeto/seguranca.md) |
 | **Escalabilidade** | [`docs/projeto/escalabilidade.md`](docs/projeto/escalabilidade.md) |
-| Domínio | [`docs/projeto/mapa-entidades.md`](docs/projeto/mapa-entidades.md) |
+| Domínio de negócio | [`docs/projeto/mapa-entidades.md`](docs/projeto/mapa-entidades.md) |
 | Status | [`docs/projeto/modulos/STATUS_PROTOTIPO.md`](docs/projeto/modulos/STATUS_PROTOTIPO.md) |
 | Banco | [`database/`](database/) · triggers [`database/info/triggers.md`](database/info/triggers.md) |
 | Testes | [`tests/README.md`](tests/README.md) |
+| Usar como base | [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md) |

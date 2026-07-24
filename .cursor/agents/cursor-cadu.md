@@ -15,6 +15,7 @@
 | Stack | React+Vite+TS · NestJS · Prisma · PostgreSQL · JWT httpOnly |
 | Segurança | Helmet, rate limit, audit_log sem password_hash, cookies httpOnly |
 | Escala | Paginação, summary, doc de evolução |
+| Domínio técnico | `docs/projeto/DOMINIO-TECNICO.md` (handbook tech lead) |
 | Status | Protótipo completo + docs de base alinhados |
 
 ---
@@ -29,11 +30,10 @@ Fundação, stack, marca, login, CRUDs, DB local sem Docker.
 
 Helmet, Throttler, paginação, summary, triggers/`audit_log`, load tests.
 
-### 2026-07-23 — Documentação como base Prottus
+### 2026-07-24 — Domínio técnico (handbook tech lead)
 
-- README e `docs/projeto` orientados: Distac **é** o modelo (sem pasta template genérica)
-- Novos: `seguranca.md`, `escalabilidade.md`, `USAR-COMO-BASE.md`
-- RNFs e rules Cursor atualizados; Scriptcase N/A removido das specs
+- Criado `docs/projeto/DOMINIO-TECNICO.md`: tecnologias, motivações, impacto empresa, fluxos, cola de reunião, critério de aptidão do time
+- Indexado no README raiz, `docs/`, rules Distac
 
 ---
 

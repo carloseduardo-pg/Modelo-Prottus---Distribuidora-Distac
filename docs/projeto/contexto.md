@@ -32,13 +32,14 @@ Este repositório é também a **base operacional** Prottus para novos projetos 
 
 | Assunto | Arquivo |
 |---------|---------|
+| **Domínio técnico (tech lead)** | [`DOMINIO-TECNICO.md`](DOMINIO-TECNICO.md) |
 | Metodologia Prottus | [`docs/prottus/metodologia.md`](../prottus/metodologia.md) |
 | Specs técnicas | [`especificacoes.md`](especificacoes.md) |
 | **Segurança** | [`seguranca.md`](seguranca.md) |
 | **Escalabilidade** | [`escalabilidade.md`](escalabilidade.md) |
 | Usar como base | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) |
 | Marca | [`design-system.md`](design-system.md) |
-| Domínio | [`mapa-entidades.md`](mapa-entidades.md) |
+| Domínio de negócio | [`mapa-entidades.md`](mapa-entidades.md) |
 | Requisitos | [`requisitos/requisito.md`](requisitos/requisito.md) |
 | Status | [`modulos/STATUS_PROTOTIPO.md`](modulos/STATUS_PROTOTIPO.md) |
 | Banco | [`../../database/`](../../database/) |

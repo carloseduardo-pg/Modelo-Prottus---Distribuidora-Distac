@@ -7,6 +7,7 @@ Como reutilizar o repo: [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md).
 
 | Arquivo | Conteúdo |
 |---------|----------|
+| [**DOMINIO-TECNICO.md**](DOMINIO-TECNICO.md) | Handbook tech lead — stack, porquês, operação, cola de reunião |
 | [contexto.md](contexto.md) | Objetivo, usuários, escopo |
 | [especificacoes.md](especificacoes.md) | Stack e infra confirmadas |
 | [**seguranca.md**](seguranca.md) | JWT, API, banco, anonimização |

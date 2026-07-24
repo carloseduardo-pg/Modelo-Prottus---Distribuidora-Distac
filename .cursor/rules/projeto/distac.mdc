@@ -16,11 +16,12 @@ Este repo é o **produto Distac** e a **base web** para novos clientes Prottus.
 - Logo: `imagens/distac.png`
 
 ## Documentação (ler nesta ordem)
+- Domínio técnico (tech lead): `docs/projeto/DOMINIO-TECNICO.md`
 - Base / reuse: `docs/projeto/USAR-COMO-BASE.md`
 - Segurança: `docs/projeto/seguranca.md` (**obrigatório**)
 - Escalabilidade: `docs/projeto/escalabilidade.md` (**obrigatório**)
 - Specs: `docs/projeto/especificacoes.md`
-- Domínio: `docs/projeto/mapa-entidades.md`
+- Domínio de negócio: `docs/projeto/mapa-entidades.md`
 - Status: `docs/projeto/modulos/STATUS_PROTOTIPO.md`
 - Banco/triggers: `database/info/triggers.md`
 - Testes: `tests/README.md`

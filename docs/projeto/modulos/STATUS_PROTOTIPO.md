@@ -8,7 +8,7 @@
 | Camada | Status |
 |--------|--------|
 | Docs Prottus (`docs/prottus/`) | Intactos (metodologia empresa) |
-| Docs projeto | Completos — domínio, **segurança**, **escalabilidade**, base |
+| Docs projeto | Completos — domínio técnico, segurança, escalabilidade, base |
 | Frontend | OK — login, shell, CRUDs paginados |
 | Backend | OK — auth JWT httpOnly, CRUDs, summary, Helmet, rate limit |
 | Banco | OK — Prisma + triggers + `audit_log` |
@@ -28,6 +28,7 @@
 
 | Métrica | Evidência |
 |---------|-----------|
+| Domínio técnico do time | [`DOMINIO-TECNICO.md`](../DOMINIO-TECNICO.md) |
 | Segurança | [`seguranca.md`](../seguranca.md) + testes 401 / Helmet / 429 |
 | Escalabilidade | [`escalabilidade.md`](../escalabilidade.md) + paginação / summary |
 | Anonimização | `password_hash` fora do `audit_log` |
