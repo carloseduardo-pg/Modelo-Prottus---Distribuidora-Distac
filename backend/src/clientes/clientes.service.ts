@@ -14,10 +14,12 @@ import {
   type PageResult,
 } from '../common/pagination';
 
+/** Regras de negócio de cliente (CNPJ único; soft-delete se houver pedidos). */
 @Injectable()
 export class ClientesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /** Listagem paginada com busca em nome/CNPJ/cidade. */
   async list(
     q?: string,
     page?: string,
@@ -44,7 +46,7 @@ export class ClientesService {
     return pageResult(data, total, params);
   }
 
-  /** Lista enxuta para selects (máx. 100 ativos). */
+  /** Lista enxuta para selects de pedido (máx. 100 ativos). */
   listOptions() {
     return this.prisma.cliente.findMany({
       where: { ativo: true },
@@ -60,6 +62,7 @@ export class ClientesService {
     return row;
   }
 
+  /** Persiste cliente; mapeia P2002 → ConflictException de CNPJ. */
   async create(dto: CreateClienteDto) {
     try {
       return await this.prisma.cliente.create({
@@ -101,6 +104,10 @@ export class ClientesService {
     }
   }
 
+  /**
+   * Se o cliente já tem pedidos, apenas desativa (`ativo=false`) —
+   * hard delete quebraria o histórico de vendas.
+   */
   async remove(id: string) {
     await this.get(id);
     const pedidos = await this.prisma.pedido.count({

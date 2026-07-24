@@ -10,6 +10,7 @@ const nav = [
   { to: '/pedidos', label: 'Pedidos', icon: 'cart' as const },
 ];
 
+/** Layout autenticado: sidebar + topbar + Outlet das rotas de negócio. */
 export function AppShell() {
   const { user, logout } = useAuth();
 

@@ -13,6 +13,7 @@ import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 
+/** CRUD REST de produtos. */
 @ApiTags('produtos')
 @ApiCookieAuth('access_token')
 @Controller('produtos')
@@ -48,6 +49,7 @@ export class ProdutosController {
     return this.service.update(id, dto);
   }
 
+  /** DELETE pode soft-desativar se houver itens de pedido. */
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(id);

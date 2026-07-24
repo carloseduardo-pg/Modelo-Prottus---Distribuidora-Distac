@@ -3,6 +3,7 @@ import {
   UnauthorizedException,
   OnModuleInit,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import type { StringValue } from 'ms';
 import * as bcrypt from 'bcrypt';
@@ -12,15 +13,23 @@ import { LoginDto } from './dto/login.dto';
 const SEED_EMAIL = 'vendedor@distac.local';
 const SEED_PASSWORD = 'distac123';
 
+/** Login, refresh e perfil — tokens só via cookies no controller. */
 @Injectable()
 export class AuthService implements OnModuleInit {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwt: JwtService,
+    private readonly config: ConfigService,
   ) {}
 
-  /** Garante usuário seed para o sistema subir (protótipo). */
+  /**
+   * Cria usuário seed local só se `SEED_DEMO_USER_ON_BOOT=true`.
+   * Default false evita credencial demo em clones/templates esquecidos.
+   */
   async onModuleInit() {
+    if (!this.config.get<boolean>('SEED_DEMO_USER_ON_BOOT')) {
+      return;
+    }
     const existing = await this.prisma.user.findUnique({
       where: { email: SEED_EMAIL },
     });
@@ -36,6 +45,10 @@ export class AuthService implements OnModuleInit {
     }
   }
 
+  /**
+   * Valida e-mail/senha; rejeita usuário inativo com a mesma mensagem
+   * de credencial inválida (não vaza existência).
+   */
   async validateUser(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
     if (!user || !user.active) {
@@ -56,6 +69,7 @@ export class AuthService implements OnModuleInit {
     return (process.env.JWT_REFRESH_EXPIRES || '7d') as StringValue;
   }
 
+  /** Emite access + refresh JWT; o controller grava nos cookies httpOnly. */
   async login(dto: LoginDto) {
     const user = await this.validateUser(dto.email, dto.password);
     const payload = { sub: user.id, email: user.email };
@@ -79,6 +93,10 @@ export class AuthService implements OnModuleInit {
     };
   }
 
+  /**
+   * Renova o par de tokens a partir do refresh cookie.
+   * Revalida se o user ainda está ativo no banco.
+   */
   async refresh(refreshToken: string) {
     try {
       const refreshSecret = process.env.JWT_REFRESH_SECRET;
@@ -86,10 +104,10 @@ export class AuthService implements OnModuleInit {
       if (!refreshSecret || !accessSecret) {
         throw new UnauthorizedException('Sessão inválida');
       }
-      const payload = await this.jwt.verifyAsync<{ sub: string; email: string }>(
-        refreshToken,
-        { secret: refreshSecret },
-      );
+      const payload = await this.jwt.verifyAsync<{
+        sub: string;
+        email: string;
+      }>(refreshToken, { secret: refreshSecret });
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
       });
@@ -115,6 +133,7 @@ export class AuthService implements OnModuleInit {
     }
   }
 
+  /** Perfil seguro para o FE (sem passwordHash). */
   async me(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || !user.active) {

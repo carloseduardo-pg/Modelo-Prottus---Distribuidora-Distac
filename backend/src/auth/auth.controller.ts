@@ -18,6 +18,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 type AuthedRequest = Request & { user: { userId: string } };
 
+/** Grava access/refresh como cookies httpOnly (nunca no body JSON). */
 function setAuthCookies(
   res: Response,
   accessToken: string,
@@ -44,6 +45,7 @@ function clearAuthCookies(res: Response) {
   res.clearCookie('refresh_token', { path: '/' });
 }
 
+/** Endpoints de sessão; login/refresh/logout são @Public(). */
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -62,6 +64,7 @@ export class AuthController {
     return { user: result.user };
   }
 
+  /** Renova cookies a partir do refresh_token; rate limit 20/min. */
   @Public()
   @Throttle({ default: { limit: 20, ttl: 60_000 } })
   @Post('refresh')
@@ -78,6 +81,7 @@ export class AuthController {
     return { user: result.user };
   }
 
+  /** Limpa cookies; não invalida token no servidor (protótipo). */
   @Public()
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
@@ -85,6 +89,7 @@ export class AuthController {
     return { ok: true };
   }
 
+  /** Perfil do usuário autenticado (exige JWT global). */
   @Get('me')
   me(@Req() req: AuthedRequest) {
     return this.auth.me(req.user.userId);

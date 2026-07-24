@@ -14,6 +14,7 @@ import {
   type PageResult,
 } from '../common/pagination';
 
+/** Catálogo de produtos (código único; soft-delete se já vendido). */
 @Injectable()
 export class ProdutosService {
   constructor(private readonly prisma: PrismaService) {}
@@ -43,6 +44,7 @@ export class ProdutosService {
     return pageResult(data, total, params);
   }
 
+  /** Options para selects de pedido (máx. 100 ativos, com preço). */
   listOptions() {
     return this.prisma.produto.findMany({
       where: { ativo: true },
@@ -64,6 +66,7 @@ export class ProdutosService {
     return row;
   }
 
+  /** Mapeia P2002 → ConflictException de código. */
   async create(dto: CreateProdutoDto) {
     try {
       return await this.prisma.produto.create({
@@ -104,6 +107,10 @@ export class ProdutosService {
     }
   }
 
+  /**
+   * Se o produto já aparece em pedido_item, só desativa —
+   * hard delete apagaria histórico de itens.
+   */
   async remove(id: string) {
     await this.get(id);
     const itens = await this.prisma.pedidoItem.count({

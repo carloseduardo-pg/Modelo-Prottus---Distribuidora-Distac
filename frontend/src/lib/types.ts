@@ -1,3 +1,4 @@
+/** Tipos de domínio espelhando a API Distac (valores Decimal vêm como string|number). */
 export type Cliente = {
   id: string;
   nome: string;
@@ -58,6 +59,7 @@ export type DashboardSummary = {
   recentes: Pedido[];
 };
 
+/** Formata valor monetário em pt-BR / BRL. */
 export function money(value: string | number) {
   const n = typeof value === 'string' ? Number(value) : value;
   return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });

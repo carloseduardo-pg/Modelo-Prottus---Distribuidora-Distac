@@ -13,6 +13,7 @@ import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 
+/** CRUD REST de clientes (JWT via guard global). */
 @ApiTags('clientes')
 @ApiCookieAuth('access_token')
 @Controller('clientes')
@@ -28,6 +29,7 @@ export class ClientesController {
     return this.service.list(q, page, pageSize);
   }
 
+  /** Options leves para selects — rota antes de `:id`. */
   @Get('options/all')
   options() {
     return this.service.listOptions();
@@ -48,6 +50,7 @@ export class ClientesController {
     return this.service.update(id, dto);
   }
 
+  /** DELETE pode soft-desativar se houver pedidos vinculados. */
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(id);

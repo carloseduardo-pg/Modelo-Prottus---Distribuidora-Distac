@@ -6,6 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
+/** Payload de criação de cliente (CNPJ único no banco). */
 export class CreateClienteDto {
   @IsString()
   @MinLength(2)

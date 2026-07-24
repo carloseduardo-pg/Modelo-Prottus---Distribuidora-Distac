@@ -301,7 +301,7 @@ Limitações conscientes do protótipo (não esconder em reunião):
 
 - Refresh **não** tem denylist no banco (roubo vale até expirar).
 - CSRF mitigado por SameSite/CORS — em cenários mais agressivos pode precisar de token CSRF.
-- Seed/login de exemplo só para **local**.
+- Seed demo no boot só com `SEED_DEMO_USER_ON_BOOT=true` (default `false`) — evita criar `vendedor@distac.local` / `distac123` em clones esquecidos; local Distac seta `true` no `.env`.
 - Sem RBAC ainda (autenticado = acesso ao domínio).
 
 Detalhe: [`seguranca.md`](seguranca.md) · padrão arquitetural: [`ARQUITETURA-WEB.md`](ARQUITETURA-WEB.md).
@@ -379,6 +379,7 @@ Env críticos: `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_
 | Throttler in-memory | Simples | Em multi-instância precisa store compartilhado (Redis) |
 | Monólito modular | Menos ops | Limite futuro → extrair módulo só com dor real |
 | Audit no Postgres | Independente da API | `audit_log` cresce — planejar retenção |
+| Migration `…_cadu` (incidente) | Histórico preservado (não renomear pasta já aplicada) | Agente gerou nome de pessoa + `DROP DEFAULT` em `audit_log.id`; corrigido em `…_restore_audit_log_id_default` — ver `prisma/migrations/20260723182933_cadu/README.md` |
 
 ---
 

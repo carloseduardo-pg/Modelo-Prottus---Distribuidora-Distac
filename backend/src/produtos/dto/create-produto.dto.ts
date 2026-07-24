@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
+/** Payload de criação de produto (código único). */
 export class CreateProdutoDto {
   @IsString()
   @MinLength(1)

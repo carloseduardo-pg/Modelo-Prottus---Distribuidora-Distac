@@ -22,6 +22,10 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+/**
+ * Sessão React: perfil em memória + cookies httpOnly na API.
+ * Não persiste JWT no localStorage.
+ */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -50,6 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/** Hook de sessão; exige árvore sob AuthProvider. */
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) {

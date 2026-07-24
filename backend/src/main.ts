@@ -10,10 +10,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
-  app.use(helmet({
-    // Swagger UI carrega assets inline — evita bloquear /api/docs em dev
-    contentSecurityPolicy: config.get('NODE_ENV') === 'production' ? undefined : false,
-  }));
+  app.use(
+    helmet({
+      // Swagger UI carrega assets inline — evita bloquear /api/docs em dev
+      contentSecurityPolicy:
+        config.get('NODE_ENV') === 'production' ? undefined : false,
+    }),
+  );
   app.use(cookieParser());
   app.enableCors({
     origin: config.get<string>('CORS_ORIGIN') || 'http://localhost:5173',

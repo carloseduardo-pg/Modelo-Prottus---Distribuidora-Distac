@@ -24,10 +24,16 @@ const includePedido = {
 
 type PedidoFull = Prisma.PedidoGetPayload<{ include: typeof includePedido }>;
 
+/**
+ * Pedidos e itens.
+ * Fonte da verdade de `pedido.total`: trigger PostgreSQL `fn_pedido_recalc_total`.
+ * A API calcula `subtotal` por item (validação de payload) e só relê o total.
+ */
 @Injectable()
 export class PedidosService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /** Listagem com filtro por status e busca em observação/cliente. */
   async list(
     q?: string,
     status?: PedidoStatus,
@@ -68,6 +74,11 @@ export class PedidosService {
     return row;
   }
 
+  /**
+   * Monta linhas de item com preço (fallback do produto) e subtotal.
+   * Rejeita produto inexistente ou inativo.
+   * Subtotal aqui valida o payload; a trigger BEFORE do item também recalcula.
+   */
   private async buildItens(itens: PedidoItemInputDto[]) {
     const produtoIds = itens.map((i) => i.produtoId);
     const produtos = await this.prisma.produto.findMany({
@@ -79,8 +90,7 @@ export class PedidosService {
     const byId = new Map(produtos.map((p) => [p.id, p]));
     return itens.map((item) => {
       const produto = byId.get(item.produtoId)!;
-      const precoUnitario =
-        item.precoUnitario ?? Number(produto.preco);
+      const precoUnitario = item.precoUnitario ?? Number(produto.preco);
       const quantidade = item.quantidade;
       const subtotal = Number((quantidade * precoUnitario).toFixed(2));
       return {
@@ -92,6 +102,10 @@ export class PedidosService {
     });
   }
 
+  /**
+   * Cria pedido sem gravar `total` — default 0 no schema; a trigger AFTER
+   * em pedido_item recalcula `pedido.total`. Relê o registro para a resposta.
+   */
   async create(dto: CreatePedidoDto) {
     const cliente = await this.prisma.cliente.findUnique({
       where: { id: dto.clienteId },
@@ -100,22 +114,29 @@ export class PedidosService {
       throw new BadRequestException('Cliente inválido ou inativo');
     }
     const itens = await this.buildItens(dto.itens);
-    // subtotal/total também são reforçados por triggers no PostgreSQL
-    const total = Number(
-      itens.reduce((acc, i) => acc + Number(i.subtotal), 0).toFixed(2),
-    );
-    return this.prisma.pedido.create({
+    const created = await this.prisma.pedido.create({
       data: {
         clienteId: dto.clienteId,
         status: dto.status ?? PedidoStatus.rascunho,
         observacao: dto.observacao,
-        total,
+        // total: dona é a trigger fn_pedido_recalc_total — API não escreve
         itens: { create: itens },
       },
       include: includePedido,
     });
+    const reloaded = await this.prisma.pedido.findUnique({
+      where: { id: created.id },
+      include: includePedido,
+    });
+    if (!reloaded) throw new NotFoundException('Pedido não encontrado');
+    return reloaded;
   }
 
+  /**
+   * Atualiza cabeçalho; se `itens` vier, substitui o conjunto (delete+createMany).
+   * Não escreve `total` — a trigger recalcula após os itens; resposta via releitura.
+   * Recusa pedido cancelado.
+   */
   async update(id: string, dto: UpdatePedidoDto) {
     const atual = await this.get(id);
     if (atual.status === PedidoStatus.cancelado) {
@@ -131,30 +152,27 @@ export class PedidosService {
       }
     }
 
-    return this.prisma.$transaction(async (tx) => {
-      let total = Number(atual.total);
+    await this.prisma.$transaction(async (tx) => {
       if (dto.itens) {
         const itens = await this.buildItens(dto.itens);
-        total = Number(
-          itens.reduce((acc, i) => acc + Number(i.subtotal), 0).toFixed(2),
-        );
         await tx.pedidoItem.deleteMany({ where: { pedidoId: id } });
         await tx.pedidoItem.createMany({
           data: itens.map((i) => ({ ...i, pedidoId: id })),
         });
+        // total recalculado pela trigger AFTER em cada item create/delete
       }
 
-      return tx.pedido.update({
+      await tx.pedido.update({
         where: { id },
         data: {
           clienteId: dto.clienteId,
           status: dto.status,
           observacao: dto.observacao,
-          total,
         },
-        include: includePedido,
       });
     });
+
+    return this.get(id);
   }
 
   async remove(id: string) {

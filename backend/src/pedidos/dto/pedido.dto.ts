@@ -12,6 +12,7 @@ import {
 } from 'class-validator';
 import { PedidoStatus } from '@prisma/client';
 
+/** Linha de item no create/update; `precoUnitario` opcional usa preço do produto. */
 export class PedidoItemInputDto {
   @IsUUID()
   produtoId!: string;
@@ -28,6 +29,7 @@ export class PedidoItemInputDto {
   precoUnitario?: number;
 }
 
+/** Criação de pedido com pelo menos um item. */
 export class CreatePedidoDto {
   @IsUUID()
   clienteId!: string;
@@ -47,6 +49,10 @@ export class CreatePedidoDto {
   itens!: PedidoItemInputDto[];
 }
 
+/**
+ * Atualização parcial; se `itens` vier, substitui o conjunto inteiro
+ * (delete + createMany no service).
+ */
 export class UpdatePedidoDto {
   @IsOptional()
   @IsUUID()

@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
+/** Contagens + últimos pedidos para a Home (evita N listagens completas). */
 @Injectable()
 export class DashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /** Resumo leve para a tela Início (sem carregar listas inteiras). */
+  /** Agrega counts e 5 pedidos recentes sem carregar CRUDs inteiros. */
   async summary() {
     const [
       clientes,
@@ -45,9 +46,7 @@ export class DashboardService {
         status: p.status,
         total: p.total,
         clienteId: p.clienteId,
-        cliente: p.cliente
-          ? { id: p.cliente.id, nome: p.cliente.nome }
-          : null,
+        cliente: p.cliente ? { id: p.cliente.id, nome: p.cliente.nome } : null,
         itensCount: p.itens.length,
       })),
     };

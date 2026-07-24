@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
+/** Módulo de autenticação JWT (cookies) + export do guard global. */
 @Module({
   imports: [PassportModule, JwtModule.register({})],
   controllers: [AuthController],

@@ -13,6 +13,7 @@ import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto, UpdatePedidoDto } from './dto/pedido.dto';
 
+/** CRUD REST de pedidos (cabeçalho + itens aninhados). */
 @ApiTags('pedidos')
 @ApiCookieAuth('access_token')
 @Controller('pedidos')

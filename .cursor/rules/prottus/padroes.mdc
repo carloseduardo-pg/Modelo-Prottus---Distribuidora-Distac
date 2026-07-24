@@ -44,3 +44,11 @@ Aplicável a **todos** os projetos. Stack/arquitetura: `docs/projeto/especificac
 - Specs módulos: `docs/projeto/modulos/`
 - Specs apps: `docs/projeto/aplicacoes/`
 - Detalhes técnicos da stack: `docs/projeto/especificacoes.md`
+
+## Migrations (Prisma)
+- Nome da migration descreve a **mudança de schema** (ex.: `add_cliente_cidade_index`) — **proibido** usar nome de pessoa (`cadu`, `joao`, etc.)
+- Nunca renomear pasta de migration **já aplicada** em `_prisma_migrations` (quebra histórico)
+- Antes de aceitar migration gerada por agente, no diretório `backend/`, revisar o SQL e rodar:
+  `npx prisma migrate diff --from-schema-datasource prisma/schema.prisma --to-schema-datamodel prisma/schema.prisma --script`
+  (diff vazio ou alinhado ao intent = ok; surpresa tipo `DROP DEFAULT` = rejeitar/corrigir)
+- Incidente real Distac: `20260723182933_cadu` — ver README na pasta da migration

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import './Modal.css';
 
+/** Dialog modal; clique no backdrop fecha; `wide` amplia o painel. */
 export function Modal({
   title,
   open,

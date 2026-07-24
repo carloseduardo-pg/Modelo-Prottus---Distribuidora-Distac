@@ -17,6 +17,10 @@ function qs(params: Record<string, string | number | undefined>) {
   return s ? `?${s}` : '';
 }
 
+/**
+ * Facades tipadas dos recursos Distac.
+ * Toda chamada passa por `apiFetch` (cookies + refresh).
+ */
 export const dashboardApi = {
   summary: () => apiFetch<DashboardSummary>('/dashboard/summary'),
 };

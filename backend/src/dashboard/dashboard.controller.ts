@@ -2,6 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
 
+/** Endpoint de summary da Home. */
 @ApiTags('dashboard')
 @ApiCookieAuth('access_token')
 @Controller('dashboard')

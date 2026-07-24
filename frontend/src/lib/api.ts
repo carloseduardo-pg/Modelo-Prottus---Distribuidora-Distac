@@ -1,12 +1,16 @@
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
+/** Perfil público do usuário autenticado (sem token). */
 export type AuthUser = {
   id: string;
   email: string;
   name: string;
 };
 
-/** Cliente HTTP com cookies (JWT httpOnly). */
+/**
+ * Cliente HTTP Distac: sempre `credentials: 'include'` (cookies JWT).
+ * Em 401 (exceto login/refresh), tenta refresh e repete a chamada uma vez.
+ */
 export async function apiFetch<T>(
   path: string,
   options: RequestInit = {},
@@ -56,6 +60,7 @@ export async function apiFetch<T>(
   return res.json() as Promise<T>;
 }
 
+/** POST /auth/login — cookies setados pelo browser. */
 export function loginRequest(email: string, password: string) {
   return apiFetch<{ user: AuthUser }>('/auth/login', {
     method: 'POST',
