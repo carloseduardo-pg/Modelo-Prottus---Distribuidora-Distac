@@ -20,8 +20,10 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
    - `tests/load` (ajustar cenários ao domínio)
    - Docs `seguranca.md`, `escalabilidade.md`, `DOMINIO-TECNICO.md`
    - `.cursor/skills/` (adaptar skills `distac-*`) e `.cursor/rules/prottus/`
+   - `ConfigModule` + validação de env + Swagger (`/api/docs`)
 6. **Limpar** seed/login de exemplo; nunca publicar senhas reais.
-7. **Rodar** setup → migrate → check → API → UI → `node tests/load/run-node.mjs smoke`.
+7. **Adaptar** título/tags do Swagger; opcional: kit do editor em [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md) (`.vscode/` — onboarding humano, não skill).
+8. **Rodar** setup → migrate → check → API → UI → abrir `/api/docs` → `node tests/load/run-node.mjs smoke`.
 
 ---
 
@@ -35,6 +37,9 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
 | Seed e CNPJs de exemplo | Anonimização em `audit_log` |
 | Nomes de módulos Nest | Convenção de triggers `fn_` / `trg_` |
 | Rule/skills `distac-*` | Pilares de skills (local-run, security, tests) |
+| Título Swagger | ConfigModule + Swagger |
+
+Onboarding do editor (opcional): [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md).
 
 ---
 
@@ -44,4 +49,5 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
 - [ ] CRUD do domínio com paginação
 - [ ] Triggers/audit aplicados e documentados
 - [ ] Segurança e escalabilidade linkados no README do novo projeto
+- [ ] Swagger `/api/docs` funcionando
 - [ ] Teste de smoke/carga executável

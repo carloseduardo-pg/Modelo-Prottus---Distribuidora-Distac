@@ -1,37 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
-function requireJwtSecrets() {
-  const access = process.env.JWT_ACCESS_SECRET;
-  const refresh = process.env.JWT_REFRESH_SECRET;
-  if (!access || !refresh) {
-    throw new Error(
-      'JWT_ACCESS_SECRET e JWT_REFRESH_SECRET são obrigatórios no .env',
-    );
-  }
-  if (
-    access.includes('change-in-prod') ||
-    refresh.includes('change-in-prod')
-  ) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Substitua os secrets JWT antes de produção');
-    }
-    console.warn(
-      '[segurança] JWT secrets ainda são de desenvolvimento — troque em produção',
-    );
-  }
-}
-
 async function bootstrap() {
-  requireJwtSecrets();
   const app = await NestFactory.create(AppModule);
-  app.use(helmet());
+  const config = app.get(ConfigService);
+
+  app.use(helmet({
+    // Swagger UI carrega assets inline — evita bloquear /api/docs em dev
+    contentSecurityPolicy: config.get('NODE_ENV') === 'production' ? undefined : false,
+  }));
   app.use(cookieParser());
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: config.get<string>('CORS_ORIGIN') || 'http://localhost:5173',
     credentials: true,
   });
   app.useGlobalPipes(
@@ -42,8 +27,30 @@ async function bootstrap() {
     }),
   );
   app.setGlobalPrefix('api');
-  const port = Number(process.env.PORT || 3000);
+
+  const swagger = new DocumentBuilder()
+    .setTitle('Distac API — Vendas Internas')
+    .setDescription(
+      'API base Prottus (NestJS). Auth via cookies httpOnly (`access_token` / `refresh_token`). ' +
+        'Use o botão Authorize apenas se testar Bearer; neste projeto o fluxo padrão é cookie.',
+    )
+    .setVersion('1.0')
+    .addCookieAuth('access_token')
+    .addTag('auth', 'Login / refresh / logout / me')
+    .addTag('clientes')
+    .addTag('produtos')
+    .addTag('pedidos')
+    .addTag('dashboard')
+    .addTag('health')
+    .build();
+  const document = SwaggerModule.createDocument(app, swagger);
+  SwaggerModule.setup('api/docs', app, document, {
+    swaggerOptions: { persistAuthorization: true },
+  });
+
+  const port = Number(config.get('PORT') || 3000);
   await app.listen(port);
   console.log(`Distac API em http://localhost:${port}/api`);
+  console.log(`Swagger     em http://localhost:${port}/api/docs`);
 }
 bootstrap();

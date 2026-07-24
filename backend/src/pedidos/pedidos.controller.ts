@@ -10,10 +10,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { PedidoStatus } from '@prisma/client';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto, UpdatePedidoDto } from './dto/pedido.dto';
 
+@ApiTags('pedidos')
+@ApiCookieAuth('access_token')
 @UseGuards(JwtAuthGuard)
 @Controller('pedidos')
 export class PedidosController {

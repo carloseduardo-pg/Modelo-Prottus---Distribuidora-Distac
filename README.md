@@ -118,6 +118,7 @@ Guia curto: [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 | Tema | Link |
 |------|------|
 | **Domínio técnico (tech lead)** | [`docs/projeto/DOMINIO-TECNICO.md`](docs/projeto/DOMINIO-TECNICO.md) |
+| **Onboarding do editor** | [`docs/projeto/PLUGINS-E-PADRONIZACAO.md`](docs/projeto/PLUGINS-E-PADRONIZACAO.md) |
 | Contexto | [`docs/projeto/contexto.md`](docs/projeto/contexto.md) |
 | Specs técnicas | [`docs/projeto/especificacoes.md`](docs/projeto/especificacoes.md) |
 | **Segurança** | [`docs/projeto/seguranca.md`](docs/projeto/seguranca.md) |
@@ -128,3 +129,4 @@ Guia curto: [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 | Testes | [`tests/README.md`](tests/README.md) |
 | Usar como base | [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md) |
 | Cursor (rules + skills) | [`.cursor/README.md`](.cursor/README.md) |
+| Swagger (API no ar) | http://localhost:3000/api/docs |

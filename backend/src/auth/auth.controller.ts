@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import type { Response, Request } from 'express';
 import { Throttle } from '@nestjs/throttler';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -44,12 +45,14 @@ function clearAuthCookies(res: Response) {
   res.clearCookie('refresh_token', { path: '/' });
 }
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
   @Throttle({ default: { limit: 10, ttl: 60_000 } })
   @Post('login')
+  @ApiOperation({ summary: 'Login — grava cookies httpOnly access/refresh' })
   async login(
     @Body() dto: LoginDto,
     @Res({ passthrough: true }) res: Response,

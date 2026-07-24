@@ -15,6 +15,7 @@ Documentos irmãos (detalhe operacional):
 | Triggers | [`../../database/info/triggers.md`](../../database/info/triggers.md) |
 | Testes | [`../../tests/README.md`](../../tests/README.md) |
 | Reuso do repo | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) |
+| Plugins / onboarding editor | [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md) |
 | Skills Cursor | [`../../.cursor/README.md`](../../.cursor/README.md) |
 
 Metodologia empresa (não editar): [`../prottus/metodologia.md`](../prottus/metodologia.md).
@@ -110,6 +111,16 @@ Para cada item: **o que é**, **por que escolhemos**, **impacto na empresa**, **
 | **Onde** | `backend/src/*` — `main.ts`, `app.module.ts`, módulos por domínio |
 | **Lead deve saber** | Prefixo global `api`; `JwtAuthGuard` **não** é global — só nas rotas protegidas; `ThrottlerGuard` **é** global |
 | **Não escolhido** | Express “cru” (falta estrutura); Fastify adapter (Express é o default Nest e suficiente aqui) |
+
+### 3.4.1 ConfigModule + Swagger (padronização de base)
+
+| | |
+|--|--|
+| **O que** | `@nestjs/config` valida `.env` no boot; `@nestjs/swagger` gera OpenAPI em `/api/docs` |
+| **Por quê** | Clone falha cedo se env estiver errado; contrato da API fica visível sem ler controllers |
+| **Impacto Prottus** | Todo projeto derivado herda o mesmo “kit” — menos drift entre times |
+| **Onde** | `config/env.validation.ts`, `app.module.ts`, `main.ts` |
+| **Lead deve saber** | Swagger: http://localhost:3000/api/docs · onboarding editor (humano): [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md) |
 
 ### 3.5 PostgreSQL
 
@@ -349,10 +360,10 @@ node tests/load/run-node.mjs heavy
 |------|-------------|
 | Login seed | `vendedor@distac.local` / `distac123` |
 | API | http://127.0.0.1:3000/api |
+| Swagger | http://127.0.0.1:3000/api/docs |
 | Health | http://127.0.0.1:3000/api/health |
 | UI | http://127.0.0.1:5173 |
-
-Env críticos: `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_ORIGIN`, `PORT`, `NODE_ENV`.
+Env críticos: `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_ORIGIN`, `PORT`, `NODE_ENV` (validados em `env.validation.ts`).
 
 ---
 
@@ -377,6 +388,7 @@ Env críticos: `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_
 - **Escala:** paginação, summary, options, testes smoke/normal/heavy.  
 - **Banco:** triggers de total/integridade/auditoria.  
 - **Repo:** base Prottus — copiar e trocar domínio/marca, manter pilares.  
+- **Padronização:** ConfigModule + Swagger.  
 - **Subir:** `database/scripts/*` → backend → frontend → `node tests/load/run-node.mjs smoke`.
 
 ---
@@ -387,8 +399,10 @@ Env críticos: `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_
 |----------|---------|
 | Onde o cookie é setado? | `backend/src/auth/auth.controller.ts` |
 | Onde o JWT é lido? | `backend/src/auth/jwt.strategy.ts` |
-| Onde está o Helmet/CORS? | `backend/src/main.ts` |
+| Onde está o Helmet/CORS/Swagger? | `backend/src/main.ts` |
+| Onde o `.env` é validado? | `backend/src/config/env.validation.ts` |
 | Onde está o rate limit global? | `backend/src/app.module.ts` |
+| Onboarding do editor (humano)? | [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md) |
 | Onde pagina? | `backend/src/common/pagination.ts` |
 | Onde o FE manda cookie? | `frontend/src/lib/api.ts` |
 | Onde está a sessão React? | `frontend/src/auth/AuthContext.tsx` |

@@ -2,6 +2,8 @@
 
 Tudo aqui **viaja com o repositório**: quem clona já herda rules + skills do projeto.
 
+Este é o **modelo Cursor** do repositório. Extensões do editor e REST Client ficam fora daqui — onboarding humano em [`docs/projeto/PLUGINS-E-PADRONIZACAO.md`](../docs/projeto/PLUGINS-E-PADRONIZACAO.md).
+
 | Caminho | Escopo |
 |---------|--------|
 | `rules/prottus/*` | Metodologia Prottus — **não editar** |

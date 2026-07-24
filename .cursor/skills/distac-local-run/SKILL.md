@@ -14,14 +14,14 @@ description: >-
 2. `bash database/scripts/setup.sh` (se DB/role ainda não existem)
 3. `bash database/scripts/migrate.sh` → `prisma migrate deploy` + seed
 4. `bash database/scripts/check.sh`
-5. `cd backend && npm run start:dev` → `http://127.0.0.1:3000/api`
+5. `cd backend && npm run start:dev` → `http://127.0.0.1:3000/api` · Swagger `http://127.0.0.1:3000/api/docs`
 6. `cd frontend && npm run dev` → `http://127.0.0.1:5173`
 
 ## Env
 
 - Copiar `.env.example` → `.env` e `backend/.env`
 - Nunca commitar `.env`
-- Vars: `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_ORIGIN`, `PORT`
+- Vars validadas no boot (`config/env.validation.ts`): `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_ORIGIN`, `PORT`, `NODE_ENV`
 
 ## Login seed
 

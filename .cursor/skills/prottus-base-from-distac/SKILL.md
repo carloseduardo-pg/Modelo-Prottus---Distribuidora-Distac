@@ -18,8 +18,11 @@ Este repo **é** a base. Não existe pasta template vazia.
 - `database/` (scripts + triggers/audit)
 - `tests/load` (3 níveis)
 - `docs/projeto/seguranca.md` + `escalabilidade.md` + `DOMINIO-TECNICO.md`
+- ConfigModule / validação de env + Swagger `/api/docs`
 - `.cursor/rules/prottus/` e skills essenciais (adaptar as `distac-*`)
 - `docs/prottus/` intacto
+
+Onboarding humano do editor (extensões / `.http`): ver `docs/projeto/PLUGINS-E-PADRONIZACAO.md` — **não** é skill.
 
 ## Trocar
 
@@ -28,13 +31,15 @@ Este repo **é** a base. Não existe pasta template vazia.
 3. Rule `.cursor/rules/projeto/<cliente>.mdc` (substituir `distac.mdc`)
 4. Schema Prisma + CRUDs + seed
 5. Skills: renomear/adaptar `distac-*` para o novo cliente **ou** manter prefixo se ainda for o mesmo modelo
-6. `.env` novo (secrets fortes)
+6. Título/tags Swagger
+7. `.env` novo (secrets fortes)
 
 ## Checklist pronto
 
 - [ ] Login seguro documentado
 - [ ] CRUD paginado do domínio
 - [ ] Triggers/audit ok
+- [ ] Swagger `/api/docs` ok
 - [ ] `smoke` passando
 - [ ] README aponta Domínio técnico + Usar como base
 
