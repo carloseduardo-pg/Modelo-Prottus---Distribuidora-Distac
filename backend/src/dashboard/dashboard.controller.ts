@@ -1,11 +1,9 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DashboardService } from './dashboard.service';
 
 @ApiTags('dashboard')
 @ApiCookieAuth('access_token')
-@UseGuards(JwtAuthGuard)
 @Controller('dashboard')
 export class DashboardController {
   constructor(private readonly service: DashboardService) {}

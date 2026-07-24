@@ -1,9 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SkipThrottle } from '@nestjs/throttler';
+import { Public } from './common/public.decorator';
 
-/** Healthcheck mínimo da API Distac (sem rate limit). */
+/** Healthcheck mínimo da API Distac (sem auth / sem throttle). */
 @ApiTags('health')
+@Public()
 @SkipThrottle()
 @Controller('health')
 export class HealthController {

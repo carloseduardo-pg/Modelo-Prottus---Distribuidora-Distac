@@ -5,6 +5,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { validateEnv } from './config/env.validation';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { ClientesModule } from './clientes/clientes.module';
 import { ProdutosModule } from './produtos/produtos.module';
 import { PedidosModule } from './pedidos/pedidos.module';
@@ -38,6 +39,11 @@ import { HealthController } from './health.controller';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    // Zero Trust: JWT por padrão; exceções com @Public()
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })

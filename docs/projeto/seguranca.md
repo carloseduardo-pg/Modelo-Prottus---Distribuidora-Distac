@@ -49,8 +49,8 @@ Testes: [`../../tests/README.md`](../../tests/README.md).
 | Rate limit refresh | 20/min |
 | CORS | `CORS_ORIGIN` (ex.: `http://localhost:5173`) + credentials |
 | ValidationPipe | whitelist + forbidNonWhitelisted |
-| Health | `/api/health` sem throttle (monitoramento) |
-| Auth guard | CRUDs e summary exigem JWT |
+| Auth guard | **Global** `JwtAuthGuard` (Zero Trust); só `@Public()` em health + login/refresh/logout |
+| Health | `/api/health` sem throttle e sem JWT |
 
 ---
 
@@ -102,8 +102,9 @@ Ver [`database/info/triggers.md`](../../database/info/triggers.md).
 | Área | Caminho |
 |------|---------|
 | Cookies / login | `backend/src/auth/auth.controller.ts` |
-| JWT strategy | `backend/src/auth/jwt.strategy.ts` |
+| JWT strategy / guard | `jwt.strategy.ts` · `jwt-auth.guard.ts` (APP_GUARD) |
+| Rotas públicas | `@Public()` em `common/public.decorator.ts` |
 | Helmet / CORS | `backend/src/main.ts` |
-| Throttler | `backend/src/app.module.ts` |
+| Throttler + JWT global | `backend/src/app.module.ts` |
 | Triggers + audit | `database/sql/03-triggers.sql` |
 | Cliente HTTP | `frontend/src/lib/api.ts` |

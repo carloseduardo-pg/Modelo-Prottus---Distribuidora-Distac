@@ -19,25 +19,26 @@ description: >-
 | Helmet | `main.ts` |
 | Rate limit | Global 300/min; login 10/min; refresh 20/min; health skip |
 | DTO | ValidationPipe whitelist + forbidNonWhitelisted |
-| CRUD | `JwtAuthGuard` |
+| CRUD | `JwtAuthGuard` **global**; só `@Public()` em health/login/refresh/logout |
 | Senha | bcrypt cost 10; login UI **sem** pré-preencher |
 | Audit | `password_hash` omitido no JSON |
 
 ## Ao alterar auth
 
-1. Ler `backend/src/auth/auth.controller.ts` + `jwt.strategy.ts` + `frontend/src/lib/api.ts`
+1. Ler `backend/src/auth/auth.controller.ts` + `jwt.strategy.ts` + `jwt-auth.guard.ts` + `frontend/src/lib/api.ts`
 2. Manter refresh via cookie; FE já retenta em 401
 3. Não devolver access/refresh no body JSON
-4. Atualizar `docs/projeto/seguranca.md` se mudar contrato
+4. Novo endpoint público **só** com `@Public()` + justificativa em `seguranca.md` / `ARQUITETURA-WEB.md`
+5. Atualizar `docs/projeto/seguranca.md` se mudar contrato
 
 ## Checklist PR
 
 - [ ] Sem secret no git
 - [ ] Sem token no localStorage
-- [ ] Rotas de negócio autenticadas
+- [ ] Rotas de negócio autenticadas (guard global)
 - [ ] Login ainda rate-limited
 - [ ] `node tests/load/run-node.mjs smoke` passou
 
 ## Doc
 
-`docs/projeto/seguranca.md` · `docs/projeto/DOMINIO-TECNICO.md` §6
+`docs/projeto/seguranca.md` · `docs/projeto/ARQUITETURA-WEB.md` · `docs/projeto/DOMINIO-TECNICO.md` §6

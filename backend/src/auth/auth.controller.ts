@@ -5,15 +5,14 @@ import {
   Body,
   Res,
   Req,
-  UseGuards,
   UnauthorizedException,
 } from '@nestjs/common';
 import type { Response, Request } from 'express';
 import { Throttle } from '@nestjs/throttler';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Public } from '../common/public.decorator';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -50,6 +49,7 @@ function clearAuthCookies(res: Response) {
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
+  @Public()
   @Throttle({ default: { limit: 10, ttl: 60_000 } })
   @Post('login')
   @ApiOperation({ summary: 'Login — grava cookies httpOnly access/refresh' })
@@ -62,6 +62,7 @@ export class AuthController {
     return { user: result.user };
   }
 
+  @Public()
   @Throttle({ default: { limit: 20, ttl: 60_000 } })
   @Post('refresh')
   async refresh(
@@ -77,13 +78,13 @@ export class AuthController {
     return { user: result.user };
   }
 
+  @Public()
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
     clearAuthCookies(res);
     return { ok: true };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('me')
   me(@Req() req: AuthedRequest) {
     return this.auth.me(req.user.userId);

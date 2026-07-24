@@ -7,9 +7,7 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
@@ -17,7 +15,6 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 
 @ApiTags('clientes')
 @ApiCookieAuth('access_token')
-@UseGuards(JwtAuthGuard)
 @Controller('clientes')
 export class ClientesController {
   constructor(private readonly service: ClientesService) {}

@@ -15,7 +15,7 @@ Siga o espelho de `clientes` / `produtos`. Pedidos (itens) são o caso composto.
 ```
 - [ ] Prisma model + migration (deploy)
 - [ ] Nest: module, controller, service, DTOs
-- [ ] JwtAuthGuard no controller
+- [ ] Sem `@Public()` no CRUD (JWT já é global)
 - [ ] Paginação via common/pagination (page/pageSize, máx 100)
 - [ ] FE: page + resources.ts + rota ProtectedRoute
 - [ ] Modal create/edit; btn-primary compacto (não width 100%)
@@ -36,7 +36,7 @@ backend/src/<recurso>/
 ```
 
 3. Registrar módulo em `app.module.ts`.
-4. Controller: `@UseGuards(JwtAuthGuard)`, list com `page`/`pageSize`.
+4. Controller: **não** marcar `@Public()`; JWT global cobre. List com `page`/`pageSize`.
 5. Options leves (`/options/all`, `take: 100`) se for usado em select.
 
 ## Frontend
@@ -56,4 +56,4 @@ backend/src/<recurso>/
 
 ## Referência
 
-`docs/projeto/DOMINIO-TECNICO.md` · `docs/projeto/padrao-aplicacoes.md`
+`docs/projeto/DOMINIO-TECNICO.md` · `docs/projeto/ARQUITETURA-WEB.md` · `docs/projeto/padrao-aplicacoes.md`

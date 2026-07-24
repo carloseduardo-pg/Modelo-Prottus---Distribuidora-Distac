@@ -118,6 +118,7 @@ Guia curto: [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 | Tema | Link |
 |------|------|
 | **Domínio técnico (tech lead)** | [`docs/projeto/DOMINIO-TECNICO.md`](docs/projeto/DOMINIO-TECNICO.md) |
+| **Arquitetura web** | [`docs/projeto/ARQUITETURA-WEB.md`](docs/projeto/ARQUITETURA-WEB.md) |
 | **Onboarding do editor** | [`docs/projeto/PLUGINS-E-PADRONIZACAO.md`](docs/projeto/PLUGINS-E-PADRONIZACAO.md) |
 | Contexto | [`docs/projeto/contexto.md`](docs/projeto/contexto.md) |
 | Specs técnicas | [`docs/projeto/especificacoes.md`](docs/projeto/especificacoes.md) |

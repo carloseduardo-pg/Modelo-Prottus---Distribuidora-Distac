@@ -7,6 +7,7 @@ Documentos irmãos (detalhe operacional):
 
 | Tema | Arquivo |
 |------|---------|
+| Arquitetura web (padrões) | [`ARQUITETURA-WEB.md`](ARQUITETURA-WEB.md) |
 | Specs / stack confirmada | [`especificacoes.md`](especificacoes.md) |
 | Segurança | [`seguranca.md`](seguranca.md) |
 | Escalabilidade | [`escalabilidade.md`](escalabilidade.md) |
@@ -109,7 +110,7 @@ Para cada item: **o que é**, **por que escolhemos**, **impacto na empresa**, **
 | **Por quê** | Estrutura previsível para CRUD empresarial; autenticação/guards nativos; escala por módulo sem virar “pasta solta de Express” |
 | **Impacto** | Time padroniza pastas (`auth`, `clientes`, `pedidos`); fácil treinar; base para outros clientes |
 | **Onde** | `backend/src/*` — `main.ts`, `app.module.ts`, módulos por domínio |
-| **Lead deve saber** | Prefixo global `api`; `JwtAuthGuard` **não** é global — só nas rotas protegidas; `ThrottlerGuard` **é** global |
+| **Lead deve saber** | Prefixo global `api`; `JwtAuthGuard` **é** global (Zero Trust); exceções só com `@Public()`; `ThrottlerGuard` também global |
 | **Não escolhido** | Express “cru” (falta estrutura); Fastify adapter (Express é o default Nest e suficiente aqui) |
 
 ### 3.4.1 ConfigModule + Swagger (padronização de base)
@@ -292,7 +293,7 @@ Memorize estes pontos:
 3. Secrets JWT **obrigatórios** no `.env` (sem fallback fraco).
 4. Helmet + rate limit (login apertado).
 5. DTOs com whitelist.
-6. CRUDs exigem JWT.
+6. JWT **global** — CRUD sem `@Public()`; exceções documentadas.
 7. Hash bcrypt; audit **sem** `password_hash`.
 8. Login **sem** senha pré-preenchida na UI.
 
@@ -301,8 +302,9 @@ Limitações conscientes do protótipo (não esconder em reunião):
 - Refresh **não** tem denylist no banco (roubo vale até expirar).
 - CSRF mitigado por SameSite/CORS — em cenários mais agressivos pode precisar de token CSRF.
 - Seed/login de exemplo só para **local**.
+- Sem RBAC ainda (autenticado = acesso ao domínio).
 
-Detalhe: [`seguranca.md`](seguranca.md).
+Detalhe: [`seguranca.md`](seguranca.md) · padrão arquitetural: [`ARQUITETURA-WEB.md`](ARQUITETURA-WEB.md).
 
 ---
 
@@ -398,7 +400,8 @@ Env críticos: `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_
 | Pergunta | Arquivo |
 |----------|---------|
 | Onde o cookie é setado? | `backend/src/auth/auth.controller.ts` |
-| Onde o JWT é lido? | `backend/src/auth/jwt.strategy.ts` |
+| Onde o JWT é exigido por padrão? | `app.module.ts` (`APP_GUARD` JwtAuthGuard) + `@Public()` |
+| Onde está a decisão Modular Monolith? | [`ARQUITETURA-WEB.md`](ARQUITETURA-WEB.md) |
 | Onde está o Helmet/CORS/Swagger? | `backend/src/main.ts` |
 | Onde o `.env` é validado? | `backend/src/config/env.validation.ts` |
 | Onde está o rate limit global? | `backend/src/app.module.ts` |

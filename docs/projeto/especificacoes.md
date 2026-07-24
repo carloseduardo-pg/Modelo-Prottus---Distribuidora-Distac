@@ -3,7 +3,7 @@
 Documento do **produto Distac** e da **base web Prottus** deste repositório.
 
 Metodologia / qualidade universais: [`docs/prottus/metodologia.md`](../prottus/metodologia.md) — **não** misturar decisões de stack lá.  
-Segurança: [`seguranca.md`](seguranca.md) · Escalabilidade: [`escalabilidade.md`](escalabilidade.md).
+Segurança: [`seguranca.md`](seguranca.md) · Escalabilidade: [`escalabilidade.md`](escalabilidade.md) · Arquitetura: [`ARQUITETURA-WEB.md`](ARQUITETURA-WEB.md).
 
 ---
 
@@ -11,7 +11,7 @@ Segurança: [`seguranca.md`](seguranca.md) · Escalabilidade: [`escalabilidade.m
 
 | Decisão | Valor |
 |---------|-------|
-| Estilo | Monólito modular (API + SPA no mesmo repo) |
+| Estilo | **Modular Monolith** + SPA (padrão MVP/Startup — Wildnet) |
 | Repositório | Mono-repo |
 | Containers | **Não** — Postgres e app locais (sem Docker neste padrão) |
 | Papel do repo | Produto Distac **e** referência inicial para outros clientes Prottus |

@@ -18,7 +18,7 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
    - Paginação e endpoints de summary/options quando fizer sentido
    - Pasta `database/` (scripts + SQL de triggers/audit)
    - `tests/load` (ajustar cenários ao domínio)
-   - Docs `seguranca.md`, `escalabilidade.md`, `DOMINIO-TECNICO.md`
+   - Docs `seguranca.md`, `escalabilidade.md`, `DOMINIO-TECNICO.md`, `ARQUITETURA-WEB.md`
    - `.cursor/skills/` (adaptar skills `distac-*`) e `.cursor/rules/prottus/`
    - `ConfigModule` + validação de env + Swagger (`/api/docs`)
 6. **Limpar** seed/login de exemplo; nunca publicar senhas reais.
