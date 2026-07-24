@@ -25,6 +25,7 @@ Este repo é o **produto Distac** e a **base web** para novos clientes Prottus.
 - Status: `docs/projeto/modulos/STATUS_PROTOTIPO.md`
 - Banco/triggers: `database/info/triggers.md`
 - Testes: `tests/README.md`
+- Cursor skills: `.cursor/skills/` (ver `.cursor/README.md`)
 
 ## Stack
 - Mono-repo: React+Vite+TS · NestJS+TS · Prisma · PostgreSQL local (**sem Docker**)

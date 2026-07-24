@@ -30,10 +30,10 @@ Fundação, stack, marca, login, CRUDs, DB local sem Docker.
 
 Helmet, Throttler, paginação, summary, triggers/`audit_log`, load tests.
 
-### 2026-07-24 — Domínio técnico (handbook tech lead)
+### 2026-07-24 — Skills do projeto (`.cursor/skills`)
 
-- Criado `docs/projeto/DOMINIO-TECNICO.md`: tecnologias, motivações, impacto empresa, fluxos, cola de reunião, critério de aptidão do time
-- Indexado no README raiz, `docs/`, rules Distac
+- Criadas 7 skills versionadas: local-run, add-crud, security, database, load-tests, tech-lead-context, prottus-base-from-distac
+- Documentado rules vs skills em `.cursor/README.md`
 
 ---
 

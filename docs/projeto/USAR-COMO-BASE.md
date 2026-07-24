@@ -18,9 +18,10 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
    - Paginação e endpoints de summary/options quando fizer sentido
    - Pasta `database/` (scripts + SQL de triggers/audit)
    - `tests/load` (ajustar cenários ao domínio)
-   - Docs `seguranca.md` e `escalabilidade.md` (reescrever exemplos, manter pilares)
+   - Docs `seguranca.md`, `escalabilidade.md`, `DOMINIO-TECNICO.md`
+   - `.cursor/skills/` (adaptar skills `distac-*`) e `.cursor/rules/prottus/`
 6. **Limpar** seed/login de exemplo; nunca publicar senhas reais.
-7. **Rodar** setup → migrate → check → API → UI → `node tests/load/run-node.mjs`.
+7. **Rodar** setup → migrate → check → API → UI → `node tests/load/run-node.mjs smoke`.
 
 ---
 
@@ -33,6 +34,7 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
 | Brief e requisitos | `docs/prottus/` e rules Prottus |
 | Seed e CNPJs de exemplo | Anonimização em `audit_log` |
 | Nomes de módulos Nest | Convenção de triggers `fn_` / `trg_` |
+| Rule/skills `distac-*` | Pilares de skills (local-run, security, tests) |
 
 ---
 

@@ -105,9 +105,11 @@ Guia curto: [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 | `backend/` | API NestJS + Prisma |
 | `frontend/` | SPA React |
 | `database/` | Postgres — scripts, SQL, info operacional |
-| `tests/` | Carga e smoke de segurança |
+| `tests/` | Carga e smoke de segurança (3 níveis) |
 | `docs/projeto/` | Documentação **deste** produto (e referência de base) |
 | `docs/prottus/` | Metodologia Prottus (**não editar**) |
+| `.cursor/rules/` | Regras Cursor (Prottus + Distac) |
+| `.cursor/skills/` | Skills Cursor do projeto (fluxos essenciais) |
 | `imagens/` | Logo Distac |
 | `.env` / `backend/.env` | Locais (gitignored) |
 
@@ -125,3 +127,4 @@ Guia curto: [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 | Banco | [`database/`](database/) · triggers [`database/info/triggers.md`](database/info/triggers.md) |
 | Testes | [`tests/README.md`](tests/README.md) |
 | Usar como base | [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md) |
+| Cursor (rules + skills) | [`.cursor/README.md`](.cursor/README.md) |

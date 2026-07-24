@@ -15,6 +15,7 @@ Documentos irmãos (detalhe operacional):
 | Triggers | [`../../database/info/triggers.md`](../../database/info/triggers.md) |
 | Testes | [`../../tests/README.md`](../../tests/README.md) |
 | Reuso do repo | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) |
+| Skills Cursor | [`../../.cursor/README.md`](../../.cursor/README.md) |
 
 Metodologia empresa (não editar): [`../prottus/metodologia.md`](../prottus/metodologia.md).
 
