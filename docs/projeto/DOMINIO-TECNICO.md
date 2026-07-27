@@ -16,7 +16,6 @@ Este arquivo é o **handbook canônico** do modelo. Docs irmãos trazem detalhe 
 | Triggers (SQL detalhado) | [`../../database/info/triggers.md`](../../database/info/triggers.md) |
 | Testes de carga | [`../../tests/README.md`](../../tests/README.md) |
 | Reuso do repo | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) |
-| Onboarding do editor | [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md) |
 | Índice de exports | [`../../backend/FUNCTIONS.md`](../../backend/FUNCTIONS.md) · [`../../frontend/FUNCTIONS.md`](../../frontend/FUNCTIONS.md) |
 | Skills / rules Cursor | [`../../.cursor/README.md`](../../.cursor/README.md) |
 

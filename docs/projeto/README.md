@@ -7,18 +7,18 @@ Como reutilizar o repo: [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md).
 
 | Arquivo | Conteúdo |
 |---------|----------|
-| [**DOMINIO-TECNICO.md**](DOMINIO-TECNICO.md) | Handbook tech lead — arquitetura, fluxos, incidentes, sabatina (leitura profunda) |
-| [**ARQUITETURA-WEB.md**](ARQUITETURA-WEB.md) | Decisão Modular Monolith + SPA (padrões Wildnet) |
+| [**DOMINIO-TECNICO.md**](DOMINIO-TECNICO.md) | Handbook tech lead — arquitetura, fluxos, incidentes, sabatina |
+| [**ARQUITETURA-WEB.md**](ARQUITETURA-WEB.md) | Decisão Modular Monolith + SPA |
+| [**USAR-COMO-BASE.md**](USAR-COMO-BASE.md) | Passos para novo cliente |
 | [contexto.md](contexto.md) | Objetivo, usuários, escopo |
 | [especificacoes.md](especificacoes.md) | Stack e infra confirmadas |
 | [**seguranca.md**](seguranca.md) | JWT, API, banco, anonimização |
 | [**escalabilidade.md**](escalabilidade.md) | O que já escala e quando evoluir |
-| [USAR-COMO-BASE.md](USAR-COMO-BASE.md) | Passos para novo cliente a partir deste repo |
 | [padrao-aplicacoes.md](padrao-aplicacoes.md) | Defaults de UI/telas |
 | [design-system.md](design-system.md) | Marca Distac |
 | [mapa-entidades.md](mapa-entidades.md) | Domínio e campos |
-| [requisitos/](requisitos/) | RF / RNF (inclui segurança e escala) |
-| [modulos/](modulos/) | Status do protótipo |
+| [requisitos/](requisitos/) | RF / RNF |
+| [modulos/](modulos/) | Status da base |
 | [aplicacoes/](aplicacoes/) | Specs das telas |
 | [documentacao-base/](documentacao-base/) | Brief |
-| [database/](database/) | Ponte → [`../../../database/`](../../../database/) |
+| [database/](database/) | Ponte → [`../../database/`](../../database/) |

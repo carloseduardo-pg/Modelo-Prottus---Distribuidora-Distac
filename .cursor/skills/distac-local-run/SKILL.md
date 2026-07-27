@@ -14,19 +14,22 @@ description: >-
 2. `bash database/scripts/setup.sh` (se DB/role ainda não existem)
 3. `bash database/scripts/migrate.sh` → `prisma migrate deploy` + seed
 4. `bash database/scripts/check.sh`
-5. `cd backend && npm run start:dev` → `http://127.0.0.1:3000/api` · Swagger `http://127.0.0.1:3000/api/docs`
+5. `cd backend && npm run dev` → `http://127.0.0.1:3000/api` · Swagger `http://127.0.0.1:3000/api/docs`
+   (na raiz: `npm run dev:api`)
 6. `cd frontend && npm run dev` → `http://127.0.0.1:5173`
+   (na raiz: `npm run dev:web`)
 
 ## Env
 
 - Copiar `.env.example` → `.env` e `backend/.env`
 - Nunca commitar `.env`
-- Vars validadas no boot (`config/env.validation.ts`): `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_ORIGIN`, `PORT`, `NODE_ENV`
+- Vars validadas no boot (`config/env.validation.ts`): `DATABASE_URL`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `CORS_ORIGIN`, `PORT`, `NODE_ENV`, `SEED_DEMO_USER_ON_BOOT` (default false; local Distac = true)
+- FE opcional: `frontend/.env` com `VITE_API_URL` (default `http://localhost:3000/api`)
 
 ## Login seed
 
-`vendedor@distac.local` / `distac123` (campos da UI vazios de propósito)
-
+`vendedor@distac.local` / `distac123` (campos da UI vazios de propósito)  
+Criado pelo **Prisma seed** (`migrate.sh`) e, se flag ligada, também no boot da API.
 ## Smoke rápido
 
 ```bash

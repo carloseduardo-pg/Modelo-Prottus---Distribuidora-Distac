@@ -52,7 +52,7 @@ Equivalência de telas com o catálogo Prottus: [`padrao-aplicacoes.md`](padrao-
 |------|-------|
 | Local | Postgres `127.0.0.1:5432` + API `:3000` + UI `:5173` |
 | Homolog / prod | A definir por cliente (TLS obrigatório em produção) |
-| CI/CD | A definir |
+| CI/CD | A definir por cliente (modelo local não exige pipeline; ver roadmap em `ARQUITETURA-WEB.md`) |
 | Docs operacionais do banco | [`database/`](../../database/) |
 
 ### PostgreSQL (local Distac)
@@ -84,7 +84,9 @@ Detalhes e riscos: [`seguranca.md`](seguranca.md).
 | Área | Convenção |
 |------|-----------|
 | Pastas | `frontend/`, `backend/`, `database/`, `tests/`, `docs/`, `imagens/` |
-| Env (nomes) | `DATABASE_URL`, `JWT_*`, `PORT`, `CORS_ORIGIN`, `NODE_ENV` |
+| Env (nomes) | `DATABASE_URL`, `JWT_*`, `PORT`, `CORS_ORIGIN`, `NODE_ENV`, `SEED_DEMO_USER_ON_BOOT`; FE opcional `VITE_API_URL` |
+| Auth na API | `JwtAuthGuard` **global**; rotas públicas só com `@Public()` |
+| `pedido.total` | Fonte da verdade = trigger Postgres; API não grava o campo |
 | Tabelas de negócio | Nomes do brief: `cliente`, `produto`, `pedido`, `pedido_item` |
 | Plataforma | `user`, `audit_log` |
 | Secrets | Nunca no git |

@@ -2,7 +2,7 @@
 
 Tudo aqui **viaja com o repositório**: quem clona já herda rules + skills do projeto.
 
-Este é o **modelo Cursor** do repositório. Extensões do editor e REST Client ficam fora daqui — onboarding humano em [`docs/projeto/PLUGINS-E-PADRONIZACAO.md`](../docs/projeto/PLUGINS-E-PADRONIZACAO.md).
+Este é o **modelo Cursor** do repositório. Não há pasta `.vscode/` — o time trabalha no Cursor; governança do agente fica só em `.cursor/`.
 
 | Caminho | Escopo |
 |---------|--------|

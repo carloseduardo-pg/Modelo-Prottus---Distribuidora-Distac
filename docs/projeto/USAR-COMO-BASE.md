@@ -21,9 +21,9 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
    - Docs `seguranca.md`, `escalabilidade.md`, `DOMINIO-TECNICO.md`, `ARQUITETURA-WEB.md`
    - `.cursor/skills/` (adaptar skills `distac-*`) e `.cursor/rules/prottus/`
    - `ConfigModule` + validação de env + Swagger (`/api/docs`)
-6. **Limpar** seed/login de exemplo; nunca publicar senhas reais.
-7. **Adaptar** título/tags do Swagger; opcional: kit do editor em [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md) (`.vscode/` — onboarding humano, não skill).
-8. **Rodar** setup → migrate → check → API → UI → abrir `/api/docs` → `node tests/load/run-node.mjs smoke`.
+6. **Limpar** seed/login de exemplo; nunca publicar senhas reais; em cliente use `SEED_DEMO_USER_ON_BOOT=false`.
+7. **Adaptar** título/tags do Swagger (`/api/docs`).
+8. **Rodar** `npm run setup` → `npm run dev:api` → `npm run dev:web` → `/api/docs` → `npm run test:smoke`.
 
 ---
 
@@ -31,15 +31,13 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
 
 | Costuma mudar | Costuma ficar |
 |---------------|---------------|
-| Tabelas de negócio | Forma de auth (cookies httpOnly) |
+| Tabelas de negócio | Forma de auth (cookies httpOnly + JwtAuthGuard global) |
 | Telas / marca | Estrutura `frontend` / `backend` / `database` / `tests` |
 | Brief e requisitos | `docs/prottus/` e rules Prottus |
-| Seed e CNPJs de exemplo | Anonimização em `audit_log` |
+| Seed e CNPJs de exemplo | Anonimização em `audit_log`; `pedido.total` via trigger |
 | Nomes de módulos Nest | Convenção de triggers `fn_` / `trg_` |
 | Rule/skills `distac-*` | Pilares de skills (local-run, security, tests) |
 | Título Swagger | ConfigModule + Swagger |
-
-Onboarding do editor (opcional): [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONIZACAO.md).
 
 ---
 
@@ -47,7 +45,8 @@ Onboarding do editor (opcional): [`PLUGINS-E-PADRONIZACAO.md`](PLUGINS-E-PADRONI
 
 - [ ] Login seguro documentado
 - [ ] CRUD do domínio com paginação
-- [ ] Triggers/audit aplicados e documentados
+- [ ] Triggers/audit aplicados e documentados (`total` do pedido no banco)
 - [ ] Segurança e escalabilidade linkados no README do novo projeto
 - [ ] Swagger `/api/docs` funcionando
+- [ ] `SEED_DEMO_USER_ON_BOOT=false` (ou removido) em ambiente de cliente
 - [ ] Teste de smoke/carga executável

@@ -22,8 +22,6 @@ Este repo **é** a base. Não existe pasta template vazia.
 - `.cursor/rules/prottus/` e skills essenciais (adaptar as `distac-*`)
 - `docs/prottus/` intacto
 
-Onboarding humano do editor (extensões / `.http`): ver `docs/projeto/PLUGINS-E-PADRONIZACAO.md` — **não** é skill.
-
 ## Trocar
 
 1. Marca / logo / tokens (`design-system`, `distac-tokens.css`, `imagens/`)

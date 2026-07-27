@@ -1,20 +1,32 @@
-# Status do protótipo — Distac
+# Status da base — Distac (referência Prottus)
 
-**Atualizado:** 2026-07-23  
-**Papel:** produto Distac + **base de referência Prottus** (web).
+**Atualizado:** 2026-07-27  
+**Papel:** produto Distac **e** base web reutilizável da Prottus (pronta para clonar).
 
-## Resumo
+## Veredito
+
+| Critério | Status |
+|----------|--------|
+| Clone / onboarding documentado | OK — README + [`USAR-COMO-BASE.md`](../USAR-COMO-BASE.md) |
+| Segurança (JWT httpOnly, Helmet, throttle, audit) | OK |
+| Escalabilidade (paginação, summary, options) | OK |
+| Domínio técnico (tech lead) | OK — [`DOMINIO-TECNICO.md`](../DOMINIO-TECNICO.md) |
+| Testes smoke/carga | OK — `tests/load` |
+| Homolog/prod / CI | A definir **por cliente** (não bloqueia o modelo local) |
+
+## Camadas
 
 | Camada | Status |
 |--------|--------|
-| Docs Prottus (`docs/prottus/`) | Intactos (metodologia empresa) |
-| Docs projeto | Completos — domínio técnico, segurança, escalabilidade, base |
-| Frontend | OK — login, shell, CRUDs paginados |
-| Backend | OK — auth JWT httpOnly, CRUDs, summary, Helmet, rate limit |
+| Docs Prottus (`docs/prottus/`) | Intactos (metodologia empresa — não editar) |
+| Docs projeto | Completos |
+| Frontend | OK — login vazio, shell, CRUDs paginados |
+| Backend | OK — auth JWT global, CRUDs, summary, Swagger |
 | Banco | OK — Prisma + triggers + `audit_log` |
-| Testes | OK — `tests/load` (segurança + carga) |
+| Testes | OK — unitários de services + carga 3 níveis |
+| Modelo Cursor (`.cursor/`) | OK — rules + skills |
 
-## Rotas
+## Rotas UI
 
 | Rota | Status |
 |------|--------|
@@ -24,16 +36,6 @@
 | `/produtos` | OK |
 | `/pedidos` | OK |
 
-## Métricas de qualidade (Gate)
-
-| Métrica | Evidência |
-|---------|-----------|
-| Domínio técnico do time | [`DOMINIO-TECNICO.md`](../DOMINIO-TECNICO.md) |
-| Segurança | [`seguranca.md`](../seguranca.md) + testes 401 / Helmet / 429 |
-| Escalabilidade | [`escalabilidade.md`](../escalabilidade.md) + paginação / summary |
-| Anonimização | `password_hash` fora do `audit_log` |
-| Operação DB | [`database/`](../../../database/) |
-
 ## Como subir
 
-Ver [README.md](../../../README.md) na raiz.
+Ver [README.md](../../../README.md) na raiz (ou `npm run setup` / `npm run dev:api` / `npm run dev:web` a partir do `package.json` da raiz).

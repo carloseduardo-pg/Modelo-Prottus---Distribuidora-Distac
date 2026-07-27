@@ -59,7 +59,7 @@ A Distac vende material de construção para lojas (clientes B2B) em Pernambuco.
 | `data` | data/hora | sim | Default now |
 | `status` | enum | sim | Ver abaixo |
 | `observacao` | texto | não | |
-| `total` | decimal | sim | Soma dos `subtotal` dos itens |
+| `total` | decimal | sim | Soma dos `subtotal` dos itens — **fonte da verdade = trigger** `fn_pedido_recalc_total`; a API Nest **não grava** este campo |
 
 **Status do pedido:** `rascunho` · `confirmado` · `cancelado`
 
