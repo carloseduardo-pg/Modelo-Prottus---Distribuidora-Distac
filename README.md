@@ -132,6 +132,7 @@ Guia: [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 | Tema | Link |
 |------|------|
 | **Domínio técnico (tech lead)** | [`docs/projeto/DOMINIO-TECNICO.md`](docs/projeto/DOMINIO-TECNICO.md) |
+| **Fluxo da aplicação (modelo)** | [`docs/projeto/FLUXO-APLICACAO.md`](docs/projeto/FLUXO-APLICACAO.md) |
 | **Arquitetura web** | [`docs/projeto/ARQUITETURA-WEB.md`](docs/projeto/ARQUITETURA-WEB.md) |
 | **Usar como base** | [`docs/projeto/USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md) |
 | Segurança | [`docs/projeto/seguranca.md`](docs/projeto/seguranca.md) |

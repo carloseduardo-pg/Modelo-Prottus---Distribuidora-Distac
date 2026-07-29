@@ -4,9 +4,10 @@ Uso interno da Prottus. Este repo é **produto Distac** e **base** para novos cl
 
 ## Antes de mudar código
 
-1. Ler [`docs/projeto/DOMINIO-TECNICO.md`](docs/projeto/DOMINIO-TECNICO.md) (tech lead).  
-2. Segurança / escala: [`seguranca.md`](docs/projeto/seguranca.md) · [`escalabilidade.md`](docs/projeto/escalabilidade.md).  
-3. Reuso: [`USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).  
+1. Ler [`docs/projeto/DOMINIO-TECNICO.md`](docs/projeto/DOMINIO-TECNICO.md) (tech lead).
+2. Fluxo boot → auth → CRUDs: [`FLUXO-APLICACAO.md`](docs/projeto/FLUXO-APLICACAO.md) (modelo para clones).
+3. Segurança / escala: [`seguranca.md`](docs/projeto/seguranca.md) · [`escalabilidade.md`](docs/projeto/escalabilidade.md).
+4. Reuso: [`USAR-COMO-BASE.md`](docs/projeto/USAR-COMO-BASE.md).
 4. **Não editar** `docs/prottus/` nem enfraquecer JWT httpOnly / audit / paginação sem decisão documentada.
 
 ## Checklist rápido de PR

@@ -13,7 +13,7 @@ description: >-
 
 Ler e seguir: `docs/projeto/DOMINIO-TECNICO.md`
 
-Complementos: `docs/projeto/seguranca.md` · `docs/projeto/escalabilidade.md`
+Complementos: `docs/projeto/seguranca.md` · `docs/projeto/escalabilidade.md` · `docs/projeto/FLUXO-APLICACAO.md`
 
 ## Cola (não inventar fora disso)
 
@@ -34,6 +34,7 @@ Complementos: `docs/projeto/seguranca.md` · `docs/projeto/escalabilidade.md`
 | Throttler? | `backend/src/app.module.ts` |
 | Paginação? | `backend/src/common/pagination.ts` |
 | FE credentials? | `frontend/src/lib/api.ts` |
+| Fluxo completo (modelo)? | `docs/projeto/FLUXO-APLICACAO.md` |
 | Schema? | `backend/prisma/schema.prisma` |
 | Triggers? | `database/sql/03-triggers.sql` |
 | Testes 3 níveis? | `tests/load/run-node.mjs` |

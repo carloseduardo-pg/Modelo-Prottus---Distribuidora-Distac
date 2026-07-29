@@ -8,6 +8,7 @@ Como reutilizar o repo: [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md).
 | Arquivo | Conteúdo |
 |---------|----------|
 | [**DOMINIO-TECNICO.md**](DOMINIO-TECNICO.md) | Handbook tech lead — arquitetura, fluxos, incidentes, sabatina |
+| [**FLUXO-APLICACAO.md**](FLUXO-APLICACAO.md) | **Modelo** passo a passo: boot → login → home → CRUDs (reutilizar em clones) |
 | [**ARQUITETURA-WEB.md**](ARQUITETURA-WEB.md) | Decisão Modular Monolith + SPA |
 | [**USAR-COMO-BASE.md**](USAR-COMO-BASE.md) | Passos para novo cliente |
 | [contexto.md](contexto.md) | Objetivo, usuários, escopo |

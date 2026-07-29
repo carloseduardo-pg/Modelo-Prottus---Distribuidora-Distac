@@ -16,6 +16,7 @@ Este arquivo é o **handbook canônico** do modelo. Docs irmãos trazem detalhe 
 | Triggers (SQL detalhado) | [`../../database/info/triggers.md`](../../database/info/triggers.md) |
 | Testes de carga | [`../../tests/README.md`](../../tests/README.md) |
 | Reuso do repo | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) |
+| Fluxo boot → login → home → CRUDs (**modelo**) | [`FLUXO-APLICACAO.md`](FLUXO-APLICACAO.md) |
 | Índice de exports | [`../../backend/FUNCTIONS.md`](../../backend/FUNCTIONS.md) · [`../../frontend/FUNCTIONS.md`](../../frontend/FUNCTIONS.md) |
 | Skills / rules Cursor | [`../../.cursor/README.md`](../../.cursor/README.md) |
 
@@ -32,8 +33,9 @@ Metodologia empresa (**não editar**): [`../prottus/metodologia.md`](../prottus/
 | Incidente de auth / 401 / cookie | §5 + `seguranca.md` |
 | “Por que não usamos X?” | §3 (cada item) + §8 |
 | Entender pedido ponta a ponta | §6 |
+| Mapa de execução (arquivo a arquivo) | [`FLUXO-APLICACAO.md`](FLUXO-APLICACAO.md) |
 | O que já quebrou neste repo | §7 |
-| Novo cliente a partir desta base | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) + §12 |
+| Novo cliente a partir desta base | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) + §12 + atualizar `FLUXO-APLICACAO.md` |
 
 **Regra Prottus:** se está no código ou no `.env`, alguém do time precisa saber explicar. Este doc é o mapa.
 

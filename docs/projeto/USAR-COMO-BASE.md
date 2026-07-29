@@ -18,12 +18,13 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
    - Paginação e endpoints de summary/options quando fizer sentido
    - Pasta `database/` (scripts + SQL de triggers/audit)
    - `tests/load` (ajustar cenários ao domínio)
-   - Docs `seguranca.md`, `escalabilidade.md`, `DOMINIO-TECNICO.md`, `ARQUITETURA-WEB.md`
+   - Docs `seguranca.md`, `escalabilidade.md`, `DOMINIO-TECNICO.md`, `ARQUITETURA-WEB.md`, **`FLUXO-APLICACAO.md`** (atualizar tabelas ao domínio novo)
    - `.cursor/skills/` (adaptar skills `distac-*`) e `.cursor/rules/prottus/`
    - `ConfigModule` + validação de env + Swagger (`/api/docs`)
 6. **Limpar** seed/login de exemplo; nunca publicar senhas reais; em cliente use `SEED_DEMO_USER_ON_BOOT=false`.
 7. **Adaptar** título/tags do Swagger (`/api/docs`).
-8. **Rodar** `npm run setup` → `npm run dev:api` → `npm run dev:web` → `/api/docs` → `npm run test:smoke`.
+8. **Atualizar** [`FLUXO-APLICACAO.md`](FLUXO-APLICACAO.md): manter seções do modelo; trocar paths/rotas/módulos do cliente (checklist no próprio arquivo).
+9. **Rodar** `npm run setup` → `npm run dev:api` → `npm run dev:web` → `/api/docs` → `npm run test:smoke`.
 
 ---
 
@@ -35,7 +36,8 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
 | Telas / marca | Estrutura `frontend` / `backend` / `database` / `tests` |
 | Brief e requisitos | `docs/prottus/` e rules Prottus |
 | Seed e CNPJs de exemplo | Anonimização em `audit_log`; `pedido.total` via trigger |
-| Nomes de módulos Nest | Convenção de triggers `fn_` / `trg_` |
+| Nomes de módulos Nest + tabelas do `FLUXO-APLICACAO.md` | Estrutura do fluxo (boot → auth → shell → CRUD) |
+| Conteúdo das telas no fluxo | Convenção de triggers `fn_` / `trg_` |
 | Rule/skills `distac-*` | Pilares de skills (local-run, security, tests) |
 | Título Swagger | ConfigModule + Swagger |
 
@@ -44,6 +46,7 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
 ## Critério de pronto (base reutilizável)
 
 - [ ] Login seguro documentado
+- [ ] `FLUXO-APLICACAO.md` atualizado ao domínio do cliente
 - [ ] CRUD do domínio com paginação
 - [ ] Triggers/audit aplicados e documentados (`total` do pedido no banco)
 - [ ] Segurança e escalabilidade linkados no README do novo projeto
