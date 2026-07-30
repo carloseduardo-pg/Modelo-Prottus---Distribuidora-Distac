@@ -7,7 +7,10 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // Prisma 6: URL fica no schema (correto neste projeto).
+  // Se o editor marcar erro vermelho, ative "Prisma: Pin to Prisma 6"
+  // (extensão Prisma 7 valida regras da v7 por padrão).
+  url = env("DATABASE_URL")
 }
 
 enum OrderStatus {
