@@ -9,6 +9,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { parsePage } from '../common/pagination';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 
@@ -28,8 +29,7 @@ export class UsersController {
   ) {
     return this.users.findAll({
       search,
-      page: page ? Number(page) : undefined,
-      pageSize: pageSize ? Number(pageSize) : undefined,
+      ...parsePage(page, pageSize),
     });
   }
 

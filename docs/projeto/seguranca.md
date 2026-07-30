@@ -61,7 +61,7 @@ Ver [`database/info/triggers.md`](../../database/info/triggers.md).
 | Camada | Função |
 |--------|--------|
 | BEFORE | Regras (qty, preço, cliente ativo, pedido cancelado) |
-| AFTER (itens) | Recalcula `pedido.total` |
+| AFTER (itens) | Recalcula `orders.total` |
 | AFTER (DML) | Grava `audit_log` |
 
 ### Anonimização / omissão de sensíveis

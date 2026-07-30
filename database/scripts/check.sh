@@ -31,11 +31,11 @@ fi
 psql "$URL" -c "SELECT current_database() AS db, current_user AS usr;"
 
 psql "$URL" -c "
-SELECT 'cliente' AS tabela, COUNT(*)::int AS qtd FROM cliente
-UNION ALL SELECT 'produto', COUNT(*)::int FROM produto
-UNION ALL SELECT 'pedido', COUNT(*)::int FROM pedido
-UNION ALL SELECT 'pedido_item', COUNT(*)::int FROM pedido_item
-UNION ALL SELECT 'user', COUNT(*)::int FROM \"user\"
+SELECT 'clients' AS tabela, COUNT(*)::int AS qtd FROM clients
+UNION ALL SELECT 'products', COUNT(*)::int FROM products
+UNION ALL SELECT 'orders', COUNT(*)::int FROM orders
+UNION ALL SELECT 'order_items', COUNT(*)::int FROM order_items
+UNION ALL SELECT 'users', COUNT(*)::int FROM users
 ORDER BY 1;
 "
 

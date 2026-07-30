@@ -1,41 +1,48 @@
 # Status da base — Distac (referência Prottus)
 
-**Atualizado:** 2026-07-27  
-**Papel:** produto Distac **e** base web reutilizável da Prottus (pronta para clonar).
+**Atualizado:** 2026-07-30  
+**Papel:** produto Distac **e** base web reutilizável da Prottus (fusão metodologia oficial + hardening Distac).
 
 ## Veredito
 
 | Critério | Status |
 |----------|--------|
-| Clone / onboarding documentado | OK — README + [`USAR-COMO-BASE.md`](../USAR-COMO-BASE.md) |
-| Segurança (JWT httpOnly, Helmet, throttle, audit) | OK |
-| Escalabilidade (paginação, summary, options) | OK |
-| Domínio técnico (tech lead) | OK — [`DOMINIO-TECNICO.md`](../DOMINIO-TECNICO.md) |
-| Testes smoke/carga | OK — `tests/load` |
-| Homolog/prod / CI | A definir **por cliente** (não bloqueia o modelo local) |
+| Domínio código EN + UI PT | OK |
+| Clone / onboarding | OK — `COMO-INICIAR-UM-NOVO-PROJETO.md` + `USAR-COMO-BASE.md` |
+| Segurança (JWT global, user ativo, Helmet, throttle, audit) | OK |
+| Escalabilidade (paginação, summary) | OK |
+| Fluxo documentado | OK — `FLUXO-APLICACAO.md` |
+| Testes smoke + stress | OK — `tests/load` · `backend/stress` |
+| Homolog/prod / CI | A definir **por cliente** |
 
 ## Camadas
 
 | Camada | Status |
 |--------|--------|
-| Docs Prottus (`docs/prottus/`) | Intactos (metodologia empresa — não editar) |
-| Docs projeto | Completos |
-| Frontend | OK — login vazio, shell, CRUDs paginados |
-| Backend | OK — auth JWT global, CRUDs, summary, Swagger |
-| Banco | OK — Prisma + triggers + `audit_log` |
-| Testes | OK — unitários de services + carga 3 níveis |
-| Modelo Cursor (`.cursor/`) | OK — rules + skills |
+| Docs Prottus | Intactos (não editar) |
+| Docs projeto | Completos (EN domain) |
+| Frontend | OK — Hub, Clients, Products, Orders, Users |
+| Backend | OK — users/clients/products/orders + dashboard + health |
+| Banco | OK — migration limpa EN + triggers + `audit_log` |
+| Cursor | OK — rules + skills |
 
-## Rotas UI
+## Rotas UI → API
 
-| Rota | Status |
-|------|--------|
-| `/login` | OK |
-| `/` início (summary) | OK |
-| `/clientes` | OK |
-| `/produtos` | OK |
-| `/pedidos` | OK |
+| UI | API |
+|----|-----|
+| `/login` | `/api/auth/*` |
+| `/` | `/api/dashboard/summary` |
+| `/clientes` | `/api/clients` |
+| `/produtos` | `/api/products` |
+| `/pedidos` | `/api/orders` |
+| `/usuarios` | `/api/users` |
 
 ## Como subir
 
-Ver [README.md](../../../README.md) na raiz (ou `npm run setup` / `npm run dev:api` / `npm run dev:web` a partir do `package.json` da raiz).
+```bash
+npm run install:all && npm run setup
+npm run dev:api   # :3000/api
+npm run dev:web   # :5173
+```
+
+Se o banco local ainda for o schema português antigo, **recrie o database** antes do `setup`.

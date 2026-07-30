@@ -12,10 +12,11 @@ Camada compartilhada (`lib/`, `auth/`, `components/`). Pages não entram neste �
 | `logoutRequest` | `src/lib/api.ts` | POST /auth/logout |
 | `meRequest` | `src/lib/api.ts` | GET /auth/me |
 | `dashboardApi` | `src/lib/resources.ts` | Facade do summary |
-| `clientesApi` | `src/lib/resources.ts` | Facade CRUD/options clientes |
-| `produtosApi` | `src/lib/resources.ts` | Facade CRUD/options produtos |
-| `pedidosApi` | `src/lib/resources.ts` | Facade CRUD pedidos |
-| `Cliente` / `Produto` / `Pedido*` / `PageResult` / `DashboardSummary` | `src/lib/types.ts` | Tipos de domínio espelhando a API |
+| `clientsApi` | `src/lib/resources.ts` | Facade CRUD clients |
+| `productsApi` | `src/lib/resources.ts` | Facade CRUD products |
+| `ordersApi` | `src/lib/resources.ts` | Facade CRUD orders |
+| `usersApi` | `src/lib/resources.ts` | Facade CRUD users |
+| `Client` / `Product` / `Order*` / `User` / `PageResult` / `DashboardSummary` | `src/lib/types.ts` | Tipos de domínio (API EN) |
 | `money` | `src/lib/types.ts` | Formata BRL pt-BR |
 
 ## auth
@@ -32,5 +33,8 @@ Camada compartilhada (`lib/`, `auth/`, `components/`). Pages não entram neste �
 |--------|---------|------------------|
 | `AppShell` | `src/components/AppShell.tsx` | Layout sidebar + topbar + Outlet |
 | `Modal` | `src/components/Modal.tsx` | Dialog modal (backdrop fecha) |
-| `PaginationBar` | `src/components/PaginationBar.tsx` | Controles de paginação de listagens |
+| `FilterBar` | `src/components/FilterBar.tsx` | Toolbar Filtrar / Limpar / Novo |
+| `DataTable` | `src/components/DataTable.tsx` | Tabela horizontal de listagens |
+| `PaginationBar` | `src/components/PaginationBar.tsx` | Paginação padrão (pageSize 20) |
+| `StatusToggle` | `src/components/StatusToggle.tsx` | Controle ATIVO / INATIVO |
 | `Icon` | `src/components/Icon.tsx` | Ícone SVG outline (sem emoji) |

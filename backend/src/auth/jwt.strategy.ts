@@ -1,15 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
+import { PrismaService } from '../prisma/prisma.service';
 
-/** Payload mínimo do access JWT Distac. */
+/** Minimal Distac access JWT payload. */
 export type JwtPayload = {
   sub: string;
   email: string;
 };
 
-/** Lê `access_token` do cookie — Distac não usa Authorization Bearer no fluxo padrão. */
+/** Reads `access_token` from the httpOnly cookie (Bearer is not the default flow). */
 function cookieExtractor(req: Request): string | null {
   if (req?.cookies?.access_token) {
     return req.cookies.access_token as string;
@@ -17,19 +19,33 @@ function cookieExtractor(req: Request): string | null {
   return null;
 }
 
-/** Strategy Passport `jwt` alimentada pelo cookie httpOnly. */
+/**
+ * Passport `jwt` strategy: cookie + active user check in the database.
+ */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor() {
+  constructor(
+    config: ConfigService,
+    private readonly prisma: PrismaService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_ACCESS_SECRET as string,
+      secretOrKey: config.getOrThrow<string>('JWT_ACCESS_SECRET'),
     });
   }
 
-  /** Expõe `userId`/`email` em `req.user` para controllers. */
-  validate(payload: JwtPayload) {
-    return { userId: payload.sub, email: payload.email };
+  /**
+   * Rejects inactive/missing users and exposes `{ id, email, name }` on `req.user`.
+   */
+  async validate(payload: JwtPayload) {
+    const user = await this.prisma.user.findFirst({
+      where: { id: payload.sub, active: true },
+      select: { id: true, name: true, email: true },
+    });
+    if (!user) {
+      throw new UnauthorizedException('Usuário inválido ou inativo');
+    }
+    return user;
   }
 }

@@ -22,6 +22,6 @@ npx prisma migrate deploy
 npx prisma generate
 echo "OK  migrations aplicadas"
 
-echo "==> Distac seed (clientes, produtos, pedidos)"
+echo "==> Distac seed (users, clients, products, orders)"
 npx prisma db seed
 echo "OK  exemplos carregados"

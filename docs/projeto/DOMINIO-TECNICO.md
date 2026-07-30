@@ -3,11 +3,12 @@
 **Audiência:** tech leads e desenvolvedores sênior que precisam **dominar** este repositório — não só “saber onde clicar”.  
 **Objetivo:** chegar em reunião técnica (ou dirigir um projeto novo a partir desta base) e explicar **o que está no código**, **como funciona por dentro**, **por que** está assim, **o que já deu errado** e **o impacto** para a Prottus e para o cliente.
 
-Este arquivo é o **handbook canônico** do modelo. Docs irmãos trazem detalhe operacional; aqui está a narrativa completa de domínio técnico.
+Este arquivo é o **handbook canônico** do modelo. Domínio de código atual: **inglês** (`clients` / `orders`…); UI em português. Docs irmãos trazem detalhe operacional; aqui está a narrativa completa de domínio técnico.
 
 | Tema | Arquivo |
 |------|---------|
 | Decisão de padrão arquitetural (Modular Monolith) | [`ARQUITETURA-WEB.md`](ARQUITETURA-WEB.md) |
+| Fluxo boot → CRUD (modelo) | [`FLUXO-APLICACAO.md`](FLUXO-APLICACAO.md) |
 | Specs / stack confirmada | [`especificacoes.md`](especificacoes.md) |
 | Segurança (checklist operacional) | [`seguranca.md`](seguranca.md) |
 | Escalabilidade (quando evoluir) | [`escalabilidade.md`](escalabilidade.md) |
@@ -16,7 +17,6 @@ Este arquivo é o **handbook canônico** do modelo. Docs irmãos trazem detalhe 
 | Triggers (SQL detalhado) | [`../../database/info/triggers.md`](../../database/info/triggers.md) |
 | Testes de carga | [`../../tests/README.md`](../../tests/README.md) |
 | Reuso do repo | [`USAR-COMO-BASE.md`](USAR-COMO-BASE.md) |
-| Fluxo boot → login → home → CRUDs (**modelo**) | [`FLUXO-APLICACAO.md`](FLUXO-APLICACAO.md) |
 | Índice de exports | [`../../backend/FUNCTIONS.md`](../../backend/FUNCTIONS.md) · [`../../frontend/FUNCTIONS.md`](../../frontend/FUNCTIONS.md) |
 | Skills / rules Cursor | [`../../.cursor/README.md`](../../.cursor/README.md) |
 

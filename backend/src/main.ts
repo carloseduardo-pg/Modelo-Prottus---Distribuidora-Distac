@@ -40,9 +40,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addCookieAuth('access_token')
     .addTag('auth', 'Login / refresh / logout / me')
-    .addTag('clientes')
-    .addTag('produtos')
-    .addTag('pedidos')
+    .addTag('users')
+    .addTag('clients')
+    .addTag('products')
+    .addTag('orders')
     .addTag('dashboard')
     .addTag('health')
     .build();

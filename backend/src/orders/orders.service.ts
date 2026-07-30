@@ -4,6 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { OrderStatus, Prisma } from '@prisma/client';
+import {
+  pageResult,
+  skipTake,
+  type PageParams,
+} from '../common/pagination';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrderDto, OrderItemDto, UpdateOrderDto } from './dto/order.dto';
 
@@ -27,14 +32,12 @@ export class OrdersService {
   /**
    * Lists orders with optional filters.
    */
-  async findAll(params: {
-    search?: string;
-    status?: OrderStatus;
-    page?: number;
-    pageSize?: number;
-  }) {
-    const page = Math.max(1, params.page ?? 1);
-    const pageSize = Math.min(100, Math.max(1, params.pageSize ?? 20));
+  async findAll(
+    params: {
+      search?: string;
+      status?: OrderStatus;
+    } & PageParams,
+  ) {
     const where: Prisma.OrderWhereInput = {
       ...(params.status ? { status: params.status } : {}),
       ...(params.search
@@ -50,17 +53,18 @@ export class OrdersService {
           }
         : {}),
     };
+    const { skip, take } = skipTake(params);
     const [total, data] = await this.prisma.$transaction([
       this.prisma.order.count({ where }),
       this.prisma.order.findMany({
         where,
         include: orderInclude,
         orderBy: { orderedAt: 'desc' },
-        skip: (page - 1) * pageSize,
-        take: pageSize,
+        skip,
+        take,
       }),
     ]);
-    return { data, total, page, pageSize };
+    return pageResult(data, total, params);
   }
 
   /** Returns one order with items. */

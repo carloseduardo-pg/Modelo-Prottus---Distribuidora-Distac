@@ -53,9 +53,9 @@ const PROFILES = {
 
 const PATHS = [
   '/dashboard/summary',
-  '/clientes?page=1&pageSize=20',
-  '/produtos?page=1&pageSize=20',
-  '/pedidos?page=1&pageSize=20',
+  '/clients?page=1&pageSize=20',
+  '/products?page=1&pageSize=20',
+  '/orders?page=1&pageSize=20',
 ];
 
 const line = (ch = '─', n = 64) => ch.repeat(n);
@@ -213,10 +213,10 @@ async function checkUnauthenticatedAccess() {
    */
   const maxAttempts = 6;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const res = await fetch(`${BASE}/clientes`);
+    const res = await fetch(`${BASE}/clients`);
     const retryAfter = Number(res.headers.get('retry-after') || 0);
     info(
-      `GET /clientes sem cookie → HTTP ${res.status}` +
+      `GET /clients sem cookie → HTTP ${res.status}` +
         (attempt > 1 ? ` (tentativa ${attempt}/${maxAttempts})` : '') +
         (retryAfter ? `  Retry-After=${retryAfter}s` : ''),
     );

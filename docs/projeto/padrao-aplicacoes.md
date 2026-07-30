@@ -16,7 +16,8 @@ Stack: [`especificacoes.md`](especificacoes.md).
 | Nome do projeto SC | não se aplica |
 | Conexão padrão (BD) | PostgreSQL via `DATABASE_URL` |
 | App de segurança / login | Tela `/login` + API auth JWT (cookies httpOnly) |
-| App inicial pós-login | Shell com menu (`menu_main` equivalente) → listagem de pedidos |
+| App inicial pós-login | Shell com menu → Hub (`/`) com summary |
+| Menu | Shell vertical: Início, Clientes, Produtos, Pedidos, Usuários |
 
 ---
 
@@ -42,8 +43,8 @@ Stack: [`especificacoes.md`](especificacoes.md).
 | Formulário | Página/form único registro; edição via modal a partir da listagem |
 | Consulta / relatório | Tabela horizontal; busca rápida; action bar ícone+texto |
 | Gráfico | Fora do escopo inicial |
-| Dashboard | Fora do escopo inicial |
-| Menu | Shell vertical: Clientes, Produtos, Pedidos |
+| Dashboard | Hub `/` com `GET /api/dashboard/summary` (counts + recentes) |
+| Menu | Shell vertical: Início, Clientes, Produtos, Pedidos, Usuários |
 | Calendário | Fora do escopo inicial |
 | Blank / programação | Só com justificativa |
 | i18n | pt-BR; outros: nenhum |
@@ -62,7 +63,9 @@ Stack: [`especificacoes.md`](especificacoes.md).
 | Scroll infinito | Não |
 | Header de tabela | `--table-header-bg` (`#60A0D8`) |
 | Filter bar | `--filter-bar-bg` |
-| Ordenação default | `pedido.data` desc; `cliente.nome` / `produto.nome` asc |
+| Ordenação default | `orders.ordered_at` desc; `clients.name` / `products.name` asc |
+| Componentes de grid | `FilterBar` + `DataTable` + `PaginationBar` (pageSize 20) |
+| API | Inglês (`/api/clients`…); rotas UI em português (`/clientes`…) |
 
 ### Exports liberados no projeto
 
@@ -88,7 +91,8 @@ Manter prefixos Prottus como **identificadores de spec/tela** (mesmo em React):
 | `blank_` | Telas especiais (ex.: login se documentado assim) |
 
 Exemplos: `grid_cliente`, `frm_pedido`, `menu_main`.  
-Rotas React: `/login`, `/clientes`, `/produtos`, `/pedidos`.
+Rotas React: `/login`, `/`, `/clientes`, `/produtos`, `/pedidos`, `/usuarios`.  
+API: `/api/clients`, `/api/products`, `/api/orders`, `/api/users`.
 
 ---
 

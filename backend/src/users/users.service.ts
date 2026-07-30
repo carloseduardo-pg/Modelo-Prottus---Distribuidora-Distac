@@ -5,6 +5,11 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '@prisma/client';
+import {
+  pageResult,
+  skipTake,
+  type PageParams,
+} from '../common/pagination';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 
@@ -27,9 +32,7 @@ export class UsersService {
   /**
    * Lists users with optional text search and pagination.
    */
-  async findAll(params: { search?: string; page?: number; pageSize?: number }) {
-    const page = Math.max(1, params.page ?? 1);
-    const pageSize = Math.min(100, Math.max(1, params.pageSize ?? 20));
+  async findAll(params: { search?: string } & PageParams) {
     const where: Prisma.UserWhereInput = params.search
       ? {
           OR: [
@@ -38,17 +41,18 @@ export class UsersService {
           ],
         }
       : {};
+    const { skip, take } = skipTake(params);
     const [total, data] = await this.prisma.$transaction([
       this.prisma.user.count({ where }),
       this.prisma.user.findMany({
         where,
         select: userSelect,
         orderBy: { name: 'asc' },
-        skip: (page - 1) * pageSize,
-        take: pageSize,
+        skip,
+        take,
       }),
     ]);
-    return { data, total, page, pageSize };
+    return pageResult(data, total, params);
   }
 
   /**

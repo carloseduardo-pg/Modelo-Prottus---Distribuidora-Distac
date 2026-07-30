@@ -16,7 +16,7 @@ import { LoginDto } from './dto/login.dto';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-type AuthedRequest = Request & { user: { userId: string } };
+type AuthedRequest = Request & { user: { id: string; email: string; name: string } };
 
 /** Grava access/refresh como cookies httpOnly (nunca no body JSON). */
 function setAuthCookies(
@@ -92,6 +92,6 @@ export class AuthController {
   /** Perfil do usuário autenticado (exige JWT global). */
   @Get('me')
   me(@Req() req: AuthedRequest) {
-    return this.auth.me(req.user.userId);
+    return this.auth.me(req.user.id);
   }
 }

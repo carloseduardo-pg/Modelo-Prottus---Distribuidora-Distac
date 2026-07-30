@@ -8,6 +8,7 @@ const nav = [
   { to: '/clientes', label: 'Clientes', icon: 'users' as const },
   { to: '/produtos', label: 'Produtos', icon: 'box' as const },
   { to: '/pedidos', label: 'Pedidos', icon: 'cart' as const },
+  { to: '/usuarios', label: 'Usuários', icon: 'users' as const },
 ];
 
 /** Layout autenticado: sidebar + topbar + Outlet das rotas de negócio. */

@@ -18,63 +18,64 @@ Gerado a partir dos JSDoc dos módulos listados. Atualize ao exportar API públi
 
 | Export | Arquivo | Responsabilidade |
 |--------|---------|------------------|
-| `EnvironmentVariables` | `src/config/env.validation.ts` | Shape tipado do `.env` (inclui `SEED_DEMO_USER_ON_BOOT`) |
-| `validateEnv` | `src/config/env.validation.ts` | Valida env no boot; bloqueia secrets fracos em prod |
+| `EnvironmentVariables` | `src/config/env.validation.ts` | Shape tipado do `.env` |
+| `validateEnv` | `src/config/env.validation.ts` | Valida env no boot |
 
 ## prisma
 
 | Export | Arquivo | Responsabilidade |
 |--------|---------|------------------|
-| `PrismaService` | `src/prisma/prisma.service.ts` | Cliente Prisma injetável (connect/disconnect) |
+| `PrismaService` | `src/prisma/prisma.service.ts` | Cliente Prisma injetável |
 | `PrismaModule` | `src/prisma/prisma.module.ts` | Expõe PrismaService globalmente |
 
 ## auth
 
 | Export | Arquivo | Responsabilidade |
 |--------|---------|------------------|
-| `AuthService` | `src/auth/auth.service.ts` | Login, refresh, me; seed demo só se `SEED_DEMO_USER_ON_BOOT` |
+| `AuthService` | `src/auth/auth.service.ts` | Login, refresh, me; seed demo opcional |
 | `AuthController` | `src/auth/auth.controller.ts` | Sessão via cookies httpOnly |
 | `AuthModule` | `src/auth/auth.module.ts` | Módulo JWT + export do guard |
-| `JwtStrategy` | `src/auth/jwt.strategy.ts` | Strategy Passport lendo cookie access_token |
+| `JwtStrategy` | `src/auth/jwt.strategy.ts` | Cookie + usuário ativo |
 | `JwtPayload` | `src/auth/jwt.strategy.ts` | Tipo do payload JWT |
-| `JwtAuthGuard` | `src/auth/jwt-auth.guard.ts` | Zero Trust: JWT por padrão; `@Public()` libera |
+| `JwtAuthGuard` | `src/auth/jwt-auth.guard.ts` | Zero Trust global; `@Public()` libera |
 | `LoginDto` | `src/auth/dto/login.dto.ts` | Body de POST /auth/login |
 
-## clientes
+## users
 
 | Export | Arquivo | Responsabilidade |
 |--------|---------|------------------|
-| `ClientesService` | `src/clientes/clientes.service.ts` | CRUD; soft-desativa se houver pedidos |
-| `ClientesController` | `src/clientes/clientes.controller.ts` | REST /api/clientes |
-| `ClientesModule` | `src/clientes/clientes.module.ts` | Feature module |
-| `CreateClienteDto` | `src/clientes/dto/create-cliente.dto.ts` | Payload create (CNPJ único) |
-| `UpdateClienteDto` | `src/clientes/dto/update-cliente.dto.ts` | PATCH parcial |
+| `UsersService` | `src/users/users.service.ts` | CRUD vendedores |
+| `UsersController` | `src/users/users.controller.ts` | REST /api/users |
+| `UsersModule` | `src/users/users.module.ts` | Feature module |
 
-## produtos
+## clients
 
 | Export | Arquivo | Responsabilidade |
 |--------|---------|------------------|
-| `ProdutosService` | `src/produtos/produtos.service.ts` | CRUD; soft-desativa se houver itens |
-| `ProdutosController` | `src/produtos/produtos.controller.ts` | REST /api/produtos |
-| `ProdutosModule` | `src/produtos/produtos.module.ts` | Feature module |
-| `CreateProdutoDto` | `src/produtos/dto/create-produto.dto.ts` | Payload create (código único) |
-| `UpdateProdutoDto` | `src/produtos/dto/update-produto.dto.ts` | PATCH parcial |
+| `ClientsService` | `src/clients/clients.service.ts` | CRUD clients |
+| `ClientsController` | `src/clients/clients.controller.ts` | REST /api/clients |
+| `ClientsModule` | `src/clients/clients.module.ts` | Feature module |
 
-## pedidos
+## products
 
 | Export | Arquivo | Responsabilidade |
 |--------|---------|------------------|
-| `PedidosService` | `src/pedidos/pedidos.service.ts` | Pedidos/itens; total reforçado por trigger |
-| `PedidosController` | `src/pedidos/pedidos.controller.ts` | REST /api/pedidos |
-| `PedidosModule` | `src/pedidos/pedidos.module.ts` | Feature module |
-| `PedidoItemInputDto` | `src/pedidos/dto/pedido.dto.ts` | Linha de item (preço opcional) |
-| `CreatePedidoDto` | `src/pedidos/dto/pedido.dto.ts` | Create com ≥1 item |
-| `UpdatePedidoDto` | `src/pedidos/dto/pedido.dto.ts` | Update; itens substitui o conjunto |
+| `ProductsService` | `src/products/products.service.ts` | CRUD products |
+| `ProductsController` | `src/products/products.controller.ts` | REST /api/products |
+| `ProductsModule` | `src/products/products.module.ts` | Feature module |
+
+## orders
+
+| Export | Arquivo | Responsabilidade |
+|--------|---------|------------------|
+| `OrdersService` | `src/orders/orders.service.ts` | CRUD orders; total via trigger |
+| `OrdersController` | `src/orders/orders.controller.ts` | REST /api/orders |
+| `OrdersModule` | `src/orders/orders.module.ts` | Feature module |
 
 ## dashboard
 
 | Export | Arquivo | Responsabilidade |
 |--------|---------|------------------|
-| `DashboardService` | `src/dashboard/dashboard.service.ts` | Counts + recentes para Home |
+| `DashboardService` | `src/dashboard/dashboard.service.ts` | Summary para o hub |
 | `DashboardController` | `src/dashboard/dashboard.controller.ts` | GET /api/dashboard/summary |
 | `DashboardModule` | `src/dashboard/dashboard.module.ts` | Feature module |

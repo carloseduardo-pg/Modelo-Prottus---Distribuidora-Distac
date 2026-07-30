@@ -11,6 +11,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { OrderStatus } from '@prisma/client';
+import { parsePage } from '../common/pagination';
 import { CreateOrderDto, UpdateOrderDto } from './dto/order.dto';
 import { OrdersService } from './orders.service';
 
@@ -34,8 +35,7 @@ export class OrdersController {
     return this.orders.findAll({
       search,
       status,
-      page: page ? Number(page) : undefined,
-      pageSize: pageSize ? Number(pageSize) : undefined,
+      ...parsePage(page, pageSize),
     });
   }
 

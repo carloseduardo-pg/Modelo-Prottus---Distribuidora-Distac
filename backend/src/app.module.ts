@@ -6,9 +6,10 @@ import { validateEnv } from './config/env.validation';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { ClientesModule } from './clientes/clientes.module';
-import { ProdutosModule } from './produtos/produtos.module';
-import { PedidosModule } from './pedidos/pedidos.module';
+import { UsersModule } from './users/users.module';
+import { ClientsModule } from './clients/clients.module';
+import { ProductsModule } from './products/products.module';
+import { OrdersModule } from './orders/orders.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HealthController } from './health.controller';
 
@@ -19,7 +20,6 @@ import { HealthController } from './health.controller';
       envFilePath: ['.env', '../.env'],
       validate: validateEnv,
     }),
-    // Limite global generoso para listagens; login apertado via @Throttle
     ThrottlerModule.forRoot([
       {
         name: 'default',
@@ -29,9 +29,10 @@ import { HealthController } from './health.controller';
     ]),
     PrismaModule,
     AuthModule,
-    ClientesModule,
-    ProdutosModule,
-    PedidosModule,
+    UsersModule,
+    ClientsModule,
+    ProductsModule,
+    OrdersModule,
     DashboardModule,
   ],
   controllers: [HealthController],
@@ -40,7 +41,7 @@ import { HealthController } from './health.controller';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-    // Zero Trust: JWT por padrão; exceções com @Public()
+    // Zero Trust: JWT by default; exceptions use @Public()
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

@@ -16,9 +16,9 @@ Decisões deste produto: [`docs/projeto/`](docs/projeto/).
 |-------|------------------------------|-----|
 | **Segurança** | JWT httpOnly (guard global), Helmet, rate limit, secrets no `.env`, triggers + `audit_log` | [`docs/projeto/seguranca.md`](docs/projeto/seguranca.md) |
 | **Escalabilidade** | Paginação, summary, options, caminho documentado para crescer | [`docs/projeto/escalabilidade.md`](docs/projeto/escalabilidade.md) |
-| **Domínio claro** | `cliente`, `produto`, `pedido`, `pedido_item` (+ `user` / `audit_log`) | [`docs/projeto/mapa-entidades.md`](docs/projeto/mapa-entidades.md) |
-| **Banco operacional** | Postgres local, scripts, migrations, triggers | [`database/`](database/) |
-| **Qualidade verificável** | Unitários de services + smoke/carga | [`tests/`](tests/) |
+| **Domínio claro** | `clients`, `products`, `orders`, `order_items` (+ `users` / `audit_log`) — código EN, UI PT | [`docs/projeto/mapa-entidades.md`](docs/projeto/mapa-entidades.md) |
+| **Banco operacional** | Postgres local, scripts, migrations, triggers (`orders.total` no DB) | [`database/`](database/) |
+| **Qualidade verificável** | Unitários + smoke (`tests/`) + stress (`backend/stress/`) | [`tests/`](tests/) · [`backend/stress/`](backend/stress/) |
 
 Segurança e anonimização de sensíveis **sempre**. Escala conforme o cliente.
 
@@ -94,10 +94,10 @@ O usuário seed é criado por:
 ```bash
 npm run test           # unitários Nest (services)
 npm run test:smoke     # carga/segurança smoke (API no ar)
-node tests/load/run-node.mjs normal
-node tests/load/run-node.mjs heavy
+npm run test:stress:smoke  # stress Nest (API no ar)
 ```
 
+> Se o Postgres ainda tiver o schema português antigo (`cliente`, `pedido`…), **recrie o database** e rode `npm run setup` — a migration limpa é só domínio inglês.
 Detalhes: [`tests/README.md`](tests/README.md).
 
 ---

@@ -1,12 +1,15 @@
 import { apiFetch } from './api';
 import type {
-  Cliente,
+  Client,
   DashboardSummary,
+  Order,
+  OrderStatus,
   PageResult,
-  Pedido,
-  PedidoStatus,
-  Produto,
+  Product,
+  User,
 } from './types';
+
+export type { User };
 
 function qs(params: Record<string, string | number | undefined>) {
   const sp = new URLSearchParams();
@@ -18,126 +21,166 @@ function qs(params: Record<string, string | number | undefined>) {
 }
 
 /**
- * Facades tipadas dos recursos Distac.
- * Toda chamada passa por `apiFetch` (cookies + refresh).
+ * Typed Distac resource facades.
+ * Every call goes through `apiFetch` (cookies + silent refresh).
  */
 export const dashboardApi = {
   summary: () => apiFetch<DashboardSummary>('/dashboard/summary'),
 };
 
-export const clientesApi = {
-  list: (opts?: { q?: string; page?: number; pageSize?: number }) =>
-    apiFetch<PageResult<Cliente>>(
-      `/clientes${qs({
-        q: opts?.q,
+export const clientsApi = {
+  list: (opts?: { search?: string; page?: number; pageSize?: number }) =>
+    apiFetch<PageResult<Client>>(
+      `/clients${qs({
+        search: opts?.search,
         page: opts?.page ?? 1,
         pageSize: opts?.pageSize ?? 20,
       })}`,
     ),
   options: () =>
-    apiFetch<Pick<Cliente, 'id' | 'nome' | 'cnpj'>[]>('/clientes/options/all'),
+    apiFetch<PageResult<Pick<Client, 'id' | 'name' | 'document' | 'active'>>>(
+      `/clients${qs({ page: 1, pageSize: 100 })}`,
+    ),
   create: (body: {
-    nome: string;
-    cnpj: string;
-    telefone?: string | null;
+    name: string;
+    document: string;
+    phone?: string | null;
     email?: string | null;
-    cidade: string;
-    ativo: boolean;
+    city?: string | null;
+    state?: string | null;
+    active: boolean;
   }) =>
-    apiFetch<Cliente>('/clientes', { method: 'POST', body: JSON.stringify(body) }),
+    apiFetch<Client>('/clients', { method: 'POST', body: JSON.stringify(body) }),
   update: (
     id: string,
     body: Partial<{
-      nome: string;
-      cnpj: string;
-      telefone: string | null;
+      name: string;
+      document: string;
+      phone: string | null;
       email: string | null;
-      cidade: string;
-      ativo: boolean;
+      city: string | null;
+      state: string | null;
+      active: boolean;
     }>,
   ) =>
-    apiFetch<Cliente>(`/clientes/${id}`, {
+    apiFetch<Client>(`/clients/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(body),
     }),
   remove: (id: string) =>
-    apiFetch<unknown>(`/clientes/${id}`, { method: 'DELETE' }),
+    apiFetch<unknown>(`/clients/${id}`, { method: 'DELETE' }),
 };
 
-export const produtosApi = {
-  list: (opts?: { q?: string; page?: number; pageSize?: number }) =>
-    apiFetch<PageResult<Produto>>(
-      `/produtos${qs({
-        q: opts?.q,
+export const productsApi = {
+  list: (opts?: { search?: string; page?: number; pageSize?: number }) =>
+    apiFetch<PageResult<Product>>(
+      `/products${qs({
+        search: opts?.search,
         page: opts?.page ?? 1,
         pageSize: opts?.pageSize ?? 20,
       })}`,
     ),
   options: () =>
     apiFetch<
-      Pick<Produto, 'id' | 'codigo' | 'nome' | 'unidade' | 'preco'>[]
-    >('/produtos/options/all'),
+      PageResult<Pick<Product, 'id' | 'sku' | 'name' | 'price' | 'unit' | 'active'>>
+    >(`/products${qs({ page: 1, pageSize: 100 })}`),
   create: (body: {
-    codigo: string;
-    nome: string;
-    unidade: string;
-    preco: number;
-    ativo: boolean;
+    sku: string;
+    name: string;
+    unit: string;
+    price: number;
+    active: boolean;
   }) =>
-    apiFetch<Produto>('/produtos', { method: 'POST', body: JSON.stringify(body) }),
+    apiFetch<Product>('/products', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
   update: (
     id: string,
     body: Partial<{
-      codigo: string;
-      nome: string;
-      unidade: string;
-      preco: number;
-      ativo: boolean;
+      sku: string;
+      name: string;
+      unit: string;
+      price: number;
+      active: boolean;
     }>,
   ) =>
-    apiFetch<Produto>(`/produtos/${id}`, {
+    apiFetch<Product>(`/products/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(body),
     }),
   remove: (id: string) =>
-    apiFetch<unknown>(`/produtos/${id}`, { method: 'DELETE' }),
+    apiFetch<unknown>(`/products/${id}`, { method: 'DELETE' }),
 };
 
-export const pedidosApi = {
+export const ordersApi = {
   list: (opts?: {
-    q?: string;
-    status?: PedidoStatus | '';
+    search?: string;
+    status?: OrderStatus | '';
     page?: number;
     pageSize?: number;
   }) =>
-    apiFetch<PageResult<Pedido>>(
-      `/pedidos${qs({
-        q: opts?.q,
+    apiFetch<PageResult<Order>>(
+      `/orders${qs({
+        search: opts?.search,
         status: opts?.status,
         page: opts?.page ?? 1,
         pageSize: opts?.pageSize ?? 20,
       })}`,
     ),
   create: (body: {
-    clienteId: string;
-    status?: PedidoStatus;
-    observacao?: string;
-    itens: { produtoId: string; quantidade: number; precoUnitario?: number }[];
+    clientId: string;
+    status?: OrderStatus;
+    notes?: string;
+    items: { productId: string; quantity: number; unitPrice?: number }[];
   }) =>
-    apiFetch<Pedido>('/pedidos', { method: 'POST', body: JSON.stringify(body) }),
+    apiFetch<Order>('/orders', { method: 'POST', body: JSON.stringify(body) }),
   update: (
     id: string,
     body: {
-      clienteId?: string;
-      status?: PedidoStatus;
-      observacao?: string;
-      itens?: { produtoId: string; quantidade: number; precoUnitario?: number }[];
+      clientId?: string;
+      status?: OrderStatus;
+      notes?: string;
+      items?: { productId: string; quantity: number; unitPrice?: number }[];
     },
   ) =>
-    apiFetch<Pedido>(`/pedidos/${id}`, {
+    apiFetch<Order>(`/orders/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(body),
     }),
   remove: (id: string) =>
-    apiFetch<unknown>(`/pedidos/${id}`, { method: 'DELETE' }),
+    apiFetch<unknown>(`/orders/${id}`, { method: 'DELETE' }),
+};
+
+export const usersApi = {
+  list: (opts?: { search?: string; page?: number; pageSize?: number }) =>
+    apiFetch<PageResult<User>>(
+      `/users${qs({
+        search: opts?.search,
+        page: opts?.page ?? 1,
+        pageSize: opts?.pageSize ?? 20,
+      })}`,
+    ),
+  create: (body: {
+    name: string;
+    email: string;
+    password: string;
+    active: boolean;
+  }) =>
+    apiFetch<User>('/users', { method: 'POST', body: JSON.stringify(body) }),
+  update: (
+    id: string,
+    body: Partial<{
+      name: string;
+      email: string;
+      password: string;
+      active: boolean;
+    }>,
+  ) =>
+    apiFetch<User>(`/users/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    }),
+  remove: (id: string) =>
+    apiFetch<unknown>(`/users/${id}`, { method: 'DELETE' }),
 };

@@ -9,6 +9,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { parsePage } from '../common/pagination';
 import { CreateClientDto, UpdateClientDto } from './dto/client.dto';
 import { ClientsService } from './clients.service';
 
@@ -28,8 +29,7 @@ export class ClientsController {
   ) {
     return this.clients.findAll({
       search,
-      page: page ? Number(page) : undefined,
-      pageSize: pageSize ? Number(pageSize) : undefined,
+      ...parsePage(page, pageSize),
     });
   }
 

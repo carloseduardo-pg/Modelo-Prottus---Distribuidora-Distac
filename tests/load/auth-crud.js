@@ -52,13 +52,13 @@ export default function (data) {
   const summary = http.get(`${BASE}/dashboard/summary`);
   check(summary, { 'summary 200': (r) => r.status === 200 });
 
-  const clientes = http.get(`${BASE}/clientes?page=1&pageSize=20`);
+  const clientes = http.get(`${BASE}/clients?page=1&pageSize=20`);
   check(clientes, { 'clientes 200': (r) => r.status === 200 });
 
-  const produtos = http.get(`${BASE}/produtos?page=1&pageSize=20`);
+  const produtos = http.get(`${BASE}/products?page=1&pageSize=20`);
   check(produtos, { 'produtos 200': (r) => r.status === 200 });
 
-  const pedidos = http.get(`${BASE}/pedidos?page=1&pageSize=20`);
+  const pedidos = http.get(`${BASE}/orders?page=1&pageSize=20`);
   check(pedidos, { 'pedidos 200': (r) => r.status === 200 });
 
   sleep(0.2);

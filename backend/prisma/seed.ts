@@ -1,15 +1,18 @@
-import { PedidoStatus, PrismaClient } from '@prisma/client';
+import { OrderStatus, PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
-
 const SEED_TAG = '[SEED]';
 
+/**
+ * Seeds Distac demo data on English tables.
+ * Order totals are owned by PostgreSQL triggers — do not set `total` here.
+ */
 async function main() {
-  console.log('==> Distac seed — exemplos relacionados');
+  console.log('==> Distac seed — English domain');
 
   const passwordHash = await bcrypt.hash('distac123', 10);
-  await prisma.user.upsert({
+  const seller = await prisma.user.upsert({
     where: { email: 'vendedor@distac.local' },
     update: { name: 'Vendedor Distac', passwordHash, active: true },
     create: {
@@ -20,240 +23,211 @@ async function main() {
     },
   });
 
-  const clientesData = [
+  await prisma.user.upsert({
+    where: { email: 'admin@distac.local' },
+    update: { name: 'Administrador Distac', passwordHash, active: true },
+    create: {
+      email: 'admin@distac.local',
+      name: 'Administrador Distac',
+      passwordHash,
+      active: true,
+    },
+  });
+
+  const clientsData = [
     {
-      nome: 'Casa Forte Materiais',
-      cnpj: '11222333000181',
-      telefone: '8132221100',
+      name: 'Casa Forte Materiais',
+      document: '11222333000181',
+      phone: '8132221100',
       email: 'compras@casaforte.pe',
-      cidade: 'Recife',
-      ativo: true,
+      city: 'Recife',
+      state: 'PE',
+      active: true,
     },
     {
-      nome: 'Depósito Olinda Construções',
-      cnpj: '22333444000192',
-      telefone: '8133332200',
+      name: 'Depósito Olinda Construções',
+      document: '22333444000192',
+      phone: '8133332200',
       email: 'pedidos@olindaconstrucoes.pe',
-      cidade: 'Olinda',
-      ativo: true,
+      city: 'Olinda',
+      state: 'PE',
+      active: true,
     },
     {
-      nome: 'Jaboatão Tudo em Obra',
-      cnpj: '33444555000103',
-      telefone: '8134443300',
+      name: 'Jaboatão Tudo em Obra',
+      document: '33444555000103',
+      phone: '8134443300',
       email: 'contato@tudoemobra.pe',
-      cidade: 'Jaboatão dos Guararapes',
-      ativo: true,
+      city: 'Jaboatão dos Guararapes',
+      state: 'PE',
+      active: true,
     },
     {
-      nome: 'Caruaru Centro de Materiais',
-      cnpj: '44555666000114',
-      telefone: '8135554400',
+      name: 'Caruaru Centro de Materiais',
+      document: '44555666000114',
+      phone: '8135554400',
       email: null,
-      cidade: 'Caruaru',
-      ativo: true,
+      city: 'Caruaru',
+      state: 'PE',
+      active: true,
     },
   ];
 
-  const clientes = [];
-  for (const data of clientesData) {
-    const row = await prisma.cliente.upsert({
-      where: { cnpj: data.cnpj },
-      update: data,
-      create: data,
-    });
-    clientes.push(row);
+  const clients = [];
+  for (const data of clientsData) {
+    clients.push(
+      await prisma.client.upsert({
+        where: { document: data.document },
+        update: data,
+        create: data,
+      }),
+    );
   }
 
-  const produtosData = [
-    {
-      codigo: 'CIM-50',
-      nome: 'Cimento CP-II 50kg',
-      unidade: 'SC',
-      preco: 34.9,
-      ativo: true,
-    },
-    {
-      codigo: 'ARE-M3',
-      nome: 'Areia média lavada',
-      unidade: 'M3',
-      preco: 180.0,
-      ativo: true,
-    },
-    {
-      codigo: 'BRI-6F',
-      nome: 'Tijolo cerâmico 6 furos',
-      unidade: 'UN',
-      preco: 0.85,
-      ativo: true,
-    },
-    {
-      codigo: 'VER-10',
-      nome: 'Vergalhão CA-50 10mm',
-      unidade: 'BR',
-      preco: 42.5,
-      ativo: true,
-    },
-    {
-      codigo: 'BLO-14',
-      nome: 'Bloco de concreto 14x19x39',
-      unidade: 'UN',
-      preco: 3.2,
-      ativo: true,
-    },
-    {
-      codigo: 'TIN-18',
-      nome: 'Tinta acrílica branca 18L',
-      unidade: 'GL',
-      preco: 289.9,
-      ativo: true,
-    },
+  const productsData = [
+    { sku: 'CIM-50', name: 'Cimento CP-II 50kg', unit: 'SC', price: 34.9, active: true },
+    { sku: 'ARE-M3', name: 'Areia média lavada', unit: 'M3', price: 180.0, active: true },
+    { sku: 'BRI-6F', name: 'Tijolo cerâmico 6 furos', unit: 'UN', price: 0.85, active: true },
+    { sku: 'VER-10', name: 'Vergalhão CA-50 10mm', unit: 'BR', price: 42.5, active: true },
+    { sku: 'BLO-14', name: 'Bloco de concreto 14x19x39', unit: 'UN', price: 3.2, active: true },
+    { sku: 'TIN-18', name: 'Tinta acrílica branca 18L', unit: 'GL', price: 289.9, active: true },
   ];
 
-  const produtos = [];
-  for (const data of produtosData) {
-    const row = await prisma.produto.upsert({
-      where: { codigo: data.codigo },
-      update: data,
-      create: data,
-    });
-    produtos.push(row);
+  const products = [];
+  for (const data of productsData) {
+    products.push(
+      await prisma.product.upsert({
+        where: { sku: data.sku },
+        update: data,
+        create: data,
+      }),
+    );
   }
 
-  const byCodigo = Object.fromEntries(produtos.map((p) => [p.codigo, p]));
-  const byCnpj = Object.fromEntries(clientes.map((c) => [c.cnpj, c]));
+  const bySku = Object.fromEntries(products.map((p) => [p.sku, p]));
+  const byDocument = Object.fromEntries(clients.map((c) => [c.document, c]));
 
-  // Remove pedidos de exemplo anteriores (marcados) e recria.
-  // Triggers bloqueiam alterar/apagar itens de cancelado — desliga só na limpeza do seed.
-  const seedPedidos = await prisma.pedido.findMany({
-    where: { observacao: { startsWith: SEED_TAG } },
+  const seedOrders = await prisma.order.findMany({
+    where: { notes: { startsWith: SEED_TAG } },
     select: { id: true },
   });
-  if (seedPedidos.length) {
+  if (seedOrders.length) {
     await prisma.$executeRawUnsafe(
-      'ALTER TABLE pedido_item DISABLE TRIGGER trg_pedido_item_biud_calc',
-    );
-    await prisma.$executeRawUnsafe(
-      'ALTER TABLE pedido DISABLE TRIGGER trg_pedido_bu_integridade',
+      'ALTER TABLE order_items DISABLE TRIGGER trg_order_items_biud_calculate',
     );
     try {
-      await prisma.pedido.deleteMany({
-        where: { id: { in: seedPedidos.map((p) => p.id) } },
+      await prisma.order.deleteMany({
+        where: { id: { in: seedOrders.map((o) => o.id) } },
       });
     } finally {
       await prisma.$executeRawUnsafe(
-        'ALTER TABLE pedido ENABLE TRIGGER trg_pedido_bu_integridade',
-      );
-      await prisma.$executeRawUnsafe(
-        'ALTER TABLE pedido_item ENABLE TRIGGER trg_pedido_item_biud_calc',
+        'ALTER TABLE order_items ENABLE TRIGGER trg_order_items_biud_calculate',
       );
     }
   }
 
-  async function criarPedido(opts: {
-    cnpj: string;
-    status: PedidoStatus;
-    observacao: string;
-    itens: { codigo: string; quantidade: number; precoUnitario?: number }[];
-    data?: Date;
+  async function createOrder(opts: {
+    number: string;
+    document: string;
+    status: OrderStatus;
+    notes: string;
+    items: { sku: string; quantity: number; unitPrice?: number }[];
+    orderedAt?: Date;
   }) {
-    const cliente = byCnpj[opts.cnpj];
-    const itens = opts.itens.map((i) => {
-      const produto = byCodigo[i.codigo];
-      const precoUnitario = i.precoUnitario ?? Number(produto.preco);
-      const subtotal = Number((i.quantidade * precoUnitario).toFixed(2));
+    const client = byDocument[opts.document];
+    const items = opts.items.map((item) => {
+      const product = bySku[item.sku];
+      const unitPrice = item.unitPrice ?? Number(product.price);
       return {
-        produtoId: produto.id,
-        quantidade: i.quantidade,
-        precoUnitario,
-        subtotal,
+        productId: product.id,
+        quantity: item.quantity,
+        unitPrice,
+        lineTotal: Number((item.quantity * unitPrice).toFixed(2)),
       };
     });
-    const total = Number(
-      itens.reduce((acc, i) => acc + Number(i.subtotal), 0).toFixed(2),
-    );
 
-    // Itens só entram com pedido aberto; cancelado é aplicado depois (integridade no banco).
-    const statusInicial =
-      opts.status === PedidoStatus.cancelado
-        ? PedidoStatus.rascunho
-        : opts.status;
+    const initialStatus =
+      opts.status === OrderStatus.CANCELLED ? OrderStatus.DRAFT : opts.status;
 
-    const criado = await prisma.pedido.create({
+    const created = await prisma.order.create({
       data: {
-        clienteId: cliente.id,
-        status: statusInicial,
-        observacao: `${SEED_TAG} ${opts.observacao}`,
-        total,
-        data: opts.data ?? new Date(),
-        itens: { create: itens },
+        number: opts.number,
+        clientId: client.id,
+        userId: seller.id,
+        status: initialStatus,
+        notes: `${SEED_TAG} ${opts.notes}`,
+        orderedAt: opts.orderedAt ?? new Date(),
+        items: { create: items },
       },
-      include: { itens: true, cliente: true },
+      include: { items: true, client: true },
     });
 
-    if (opts.status === PedidoStatus.cancelado) {
-      return prisma.pedido.update({
-        where: { id: criado.id },
-        data: { status: PedidoStatus.cancelado },
-        include: { itens: true, cliente: true },
+    if (opts.status === OrderStatus.CANCELLED) {
+      return prisma.order.update({
+        where: { id: created.id },
+        data: { status: OrderStatus.CANCELLED },
+        include: { items: true, client: true },
       });
     }
-    return criado;
+    return created;
   }
 
-  const p1 = await criarPedido({
-    cnpj: '11222333000181',
-    status: PedidoStatus.confirmado,
-    observacao: 'Obra residencial — Casa Forte',
-    data: new Date('2026-07-10T14:00:00-03:00'),
-    itens: [
-      { codigo: 'CIM-50', quantidade: 40 },
-      { codigo: 'ARE-M3', quantidade: 2 },
-      { codigo: 'BRI-6F', quantidade: 1500 },
-    ],
-  });
+  const orders = [
+    await createOrder({
+      number: 'PED-2026-00001',
+      document: '11222333000181',
+      status: OrderStatus.CONFIRMED,
+      notes: 'Obra residencial — Casa Forte',
+      orderedAt: new Date('2026-07-10T14:00:00-03:00'),
+      items: [
+        { sku: 'CIM-50', quantity: 40 },
+        { sku: 'ARE-M3', quantity: 2 },
+        { sku: 'BRI-6F', quantity: 1500 },
+      ],
+    }),
+    await createOrder({
+      number: 'PED-2026-00002',
+      document: '22333444000192',
+      status: OrderStatus.DRAFT,
+      notes: 'Reposição de estoque — Olinda',
+      orderedAt: new Date('2026-07-18T09:30:00-03:00'),
+      items: [
+        { sku: 'VER-10', quantity: 25 },
+        { sku: 'BLO-14', quantity: 800 },
+        { sku: 'CIM-50', quantity: 20 },
+      ],
+    }),
+    await createOrder({
+      number: 'PED-2026-00003',
+      document: '33444555000103',
+      status: OrderStatus.CONFIRMED,
+      notes: 'Pintura e acabamento — Jaboatão',
+      orderedAt: new Date('2026-07-20T16:15:00-03:00'),
+      items: [
+        { sku: 'TIN-18', quantity: 6 },
+        { sku: 'BRI-6F', quantity: 400 },
+      ],
+    }),
+    await createOrder({
+      number: 'PED-2026-00004',
+      document: '44555666000114',
+      status: OrderStatus.CANCELLED,
+      notes: 'Cliente cancelou frete — Caruaru',
+      orderedAt: new Date('2026-07-05T11:00:00-03:00'),
+      items: [
+        { sku: 'ARE-M3', quantity: 5 },
+        { sku: 'CIM-50', quantity: 10 },
+      ],
+    }),
+  ];
 
-  const p2 = await criarPedido({
-    cnpj: '22333444000192',
-    status: PedidoStatus.rascunho,
-    observacao: 'Reposição de estoque — Olinda',
-    data: new Date('2026-07-18T09:30:00-03:00'),
-    itens: [
-      { codigo: 'VER-10', quantidade: 25 },
-      { codigo: 'BLO-14', quantidade: 800 },
-      { codigo: 'CIM-50', quantidade: 20 },
-    ],
-  });
-
-  const p3 = await criarPedido({
-    cnpj: '33444555000103',
-    status: PedidoStatus.confirmado,
-    observacao: 'Pintura e acabamento — Jaboatão',
-    data: new Date('2026-07-20T16:15:00-03:00'),
-    itens: [
-      { codigo: 'TIN-18', quantidade: 6 },
-      { codigo: 'BRI-6F', quantidade: 400 },
-    ],
-  });
-
-  const p4 = await criarPedido({
-    cnpj: '44555666000114',
-    status: PedidoStatus.cancelado,
-    observacao: 'Cliente cancelou frete — Caruaru',
-    data: new Date('2026-07-05T11:00:00-03:00'),
-    itens: [
-      { codigo: 'ARE-M3', quantidade: 5 },
-      { codigo: 'CIM-50', quantidade: 10 },
-    ],
-  });
-
-  console.log('OK  usuários:', 1);
-  console.log('OK  clientes:', clientes.length);
-  console.log('OK  produtos:', produtos.length);
+  console.log('OK  users: 2');
+  console.log('OK  clients:', clients.length);
+  console.log('OK  products:', products.length);
   console.log(
-    'OK  pedidos:',
-    [p1, p2, p3, p4]
-      .map((p) => `${p.status} (${p.itens.length} itens, total ${p.total})`)
+    'OK  orders:',
+    orders
+      .map((o) => `${o.number} ${o.status} (${o.items.length} items, total ${o.total})`)
       .join(' | '),
   );
   console.log('Login seed: vendedor@distac.local / distac123');

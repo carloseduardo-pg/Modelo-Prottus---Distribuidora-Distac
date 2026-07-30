@@ -86,8 +86,8 @@ Detalhes e riscos: [`seguranca.md`](seguranca.md).
 | Pastas | `frontend/`, `backend/`, `database/`, `tests/`, `docs/`, `imagens/` |
 | Env (nomes) | `DATABASE_URL`, `JWT_*`, `PORT`, `CORS_ORIGIN`, `NODE_ENV`, `SEED_DEMO_USER_ON_BOOT`; FE opcional `VITE_API_URL` |
 | Auth na API | `JwtAuthGuard` **global**; rotas públicas só com `@Public()` |
-| `pedido.total` | Fonte da verdade = trigger Postgres; API não grava o campo |
-| Tabelas de negócio | Nomes do brief: `cliente`, `produto`, `pedido`, `pedido_item` |
+| `orders.total` | Fonte da verdade = trigger Postgres; API não grava o campo |
+| Tabelas de negócio | `clients`, `products`, `orders`, `order_items` (+ `users`, `audit_log`) |
 | Plataforma | `user`, `audit_log` |
 | Secrets | Nunca no git |
 | UI | Sem emojis; `Icon` component |

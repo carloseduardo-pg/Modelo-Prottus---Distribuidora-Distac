@@ -1,45 +1,39 @@
-/** Controles simples de paginação. */
+/** Controles de paginação padronizados (Design System Distac / padrao-aplicacoes). */
 export function PaginationBar({
   page,
-  totalPages,
+  pageSize,
   total,
   onChange,
 }: {
   page: number;
-  totalPages: number;
+  pageSize: number;
   total: number;
   onChange: (page: number) => void;
 }) {
-  if (totalPages <= 1) {
-    return (
-      <p className="pagination-info">
-        {total} registro{total === 1 ? '' : 's'}
-      </p>
-    );
-  }
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
   return (
-    <div className="pagination-bar">
+    <div className="pagination">
       <span>
-        Página {page} de {totalPages} · {total} registro{total === 1 ? '' : 's'}
+        {total} registro{total === 1 ? '' : 's'} — página {page}
+        {totalPages > 1 ? ` de ${totalPages}` : ''}
       </span>
-      <div className="pagination-actions">
-        <button
-          type="button"
-          className="btn-ghost"
-          disabled={page <= 1}
-          onClick={() => onChange(page - 1)}
-        >
-          Anterior
-        </button>
-        <button
-          type="button"
-          className="btn-ghost"
-          disabled={page >= totalPages}
-          onClick={() => onChange(page + 1)}
-        >
-          Próxima
-        </button>
-      </div>
+      <button
+        type="button"
+        className="btn btn-outline"
+        disabled={page <= 1}
+        onClick={() => onChange(page - 1)}
+      >
+        Anterior
+      </button>
+      <button
+        type="button"
+        className="btn btn-outline"
+        disabled={page >= totalPages}
+        onClick={() => onChange(page + 1)}
+      >
+        Próxima
+      </button>
     </div>
   );
 }

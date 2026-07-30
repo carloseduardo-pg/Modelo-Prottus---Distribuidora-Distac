@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { DataTable } from '../components/DataTable';
 import { FilterBar } from '../components/FilterBar';
 import { Modal } from '../components/Modal';
+import { PaginationBar } from '../components/PaginationBar';
 import { StatusToggle } from '../components/StatusToggle';
 import { productsApi } from '../lib/resources';
 import { money, type Product } from '../lib/types';
@@ -36,7 +37,7 @@ export function ProductsPage() {
       { key: 'active', header: 'Status', render: (row) => <span className={`badge ${row.active ? 'badge--success' : 'badge--danger'}`}>{row.active ? 'ATIVO' : 'INATIVO'}</span> },
       { key: 'actions', header: 'Ações', render: (row) => <div className="row-actions"><button className="btn btn-ghost" onClick={() => edit(row)}>Editar</button><button className="btn btn-ghost" onClick={() => void productsApi.remove(row.id).then(() => load())}>Desativar</button></div> },
     ]} />
-    <div className="pagination"><span>{total} registro(s) — página {page}</span><button className="btn btn-outline" disabled={page <= 1} onClick={() => void load(page - 1)}>Anterior</button><button className="btn btn-outline" disabled={page * pageSize >= total} onClick={() => void load(page + 1)}>Próxima</button></div>
+    <PaginationBar page={page} pageSize={pageSize} total={total} onChange={(next) => void load(next)} />
     <Modal open={open} title={editing ? 'Editar produto' : 'Novo produto'} onClose={() => setOpen(false)} footer={<><button className="btn btn-outline" onClick={() => setOpen(false)}>Cancelar</button><button className="btn btn-primary" onClick={() => void save()}>Salvar</button></>}>
       {(['sku', 'name', 'unit'] as const).map((field) => <div className="form-field" key={field}><label>{({ sku: 'SKU *', name: 'Nome *', unit: 'Unidade *' })[field]}</label><input value={form[field]} onChange={(event) => setForm({ ...form, [field]: event.target.value })} /></div>)}
       <div className="form-field"><label>Preço *</label><input type="number" min="0" step="0.01" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} /></div>

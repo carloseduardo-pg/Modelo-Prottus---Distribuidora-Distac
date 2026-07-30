@@ -35,7 +35,7 @@ O que se customiza por cliente: tudo em `docs/projeto/`, código de domínio, ma
 | Tabelas de negócio | Forma de auth (cookies httpOnly + JwtAuthGuard global) |
 | Telas / marca | Estrutura `frontend` / `backend` / `database` / `tests` |
 | Brief e requisitos | `docs/prottus/` e rules Prottus |
-| Seed e CNPJs de exemplo | Anonimização em `audit_log`; `pedido.total` via trigger |
+| Seed e CNPJs de exemplo | Anonimização em `audit_log`; `orders.total` via trigger |
 | Nomes de módulos Nest + tabelas do `FLUXO-APLICACAO.md` | Estrutura do fluxo (boot → auth → shell → CRUD) |
 | Conteúdo das telas no fluxo | Convenção de triggers `fn_` / `trg_` |
 | Rule/skills `distac-*` | Pilares de skills (local-run, security, tests) |

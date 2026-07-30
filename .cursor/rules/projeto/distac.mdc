@@ -1,5 +1,5 @@
 ---
-description: Regras do projeto Distac — base Prottus web (stack, domínio, segurança, escala)
+description: Regras do projeto Distac — base Prottus web (stack, domínio EN, segurança, escala)
 alwaysApply: true
 ---
 
@@ -10,33 +10,35 @@ Este repo é o **produto Distac** e a **base web** para novos clientes Prottus.
 
 ## Contexto
 - Sistema: vendas internas Distac
-- Usuários: vendedores internos
+- Usuários: vendedores internos e administradores
 - Cliente: Distribuidora Distac (material de construção — PE)
 - Desenvolvedora: Prottus
 - Logo: `imagens/distac.png`
 
 ## Documentação (ler nesta ordem)
 - Domínio técnico (tech lead): `docs/projeto/DOMINIO-TECNICO.md`
-- Base / reuse: `docs/projeto/USAR-COMO-BASE.md`
+- Fluxo da aplicação (modelo): `docs/projeto/FLUXO-APLICACAO.md`
+- Base / reuse: `docs/projeto/USAR-COMO-BASE.md` · `COMO-INICIAR-UM-NOVO-PROJETO.md`
 - Segurança: `docs/projeto/seguranca.md` (**obrigatório**)
 - Escalabilidade: `docs/projeto/escalabilidade.md` (**obrigatório**)
 - Specs: `docs/projeto/especificacoes.md`
 - Domínio de negócio: `docs/projeto/mapa-entidades.md`
 - Status: `docs/projeto/modulos/STATUS_PROTOTIPO.md`
 - Banco/triggers: `database/info/triggers.md`
-- Testes: `tests/README.md`
+- Testes: `tests/README.md` · `backend/stress/`
 - Cursor skills: `.cursor/skills/` (ver `.cursor/README.md`)
 
 ## Stack
 - Mono-repo: React+Vite+TS · NestJS+TS · Prisma · PostgreSQL local (**sem Docker**)
 - Auth: JWT access+refresh em cookie **httpOnly** (nunca localStorage)
 - `JwtAuthGuard` **global** (`APP_GUARD`); exceções só `@Public()` (login/refresh/logout/health)
-- Hardening: Helmet, Throttler (login limitado), ValidationPipe, CORS
-- Listagens: paginação; dashboard via summary
-- `pedido.total`: dona = trigger Postgres; API só relê
+- JwtStrategy valida usuário **ativo** no banco
+- Hardening: Helmet, Throttler (login limitado), ValidationPipe, CORS, prefixo `/api`, Swagger
+- Listagens: paginação; hub via `/dashboard/summary`
+- `orders.total` / `order_items.line_total`: dona = trigger Postgres; API só relê
 
 ## Segurança e dados sensíveis
-- Secrets só em `.env` (gitignored)
+- Secrets só em `.env` (gitignored); sem fallback hardcoded de JWT
 - `password_hash` **omitido** em `audit_log`
 - Login sem credenciais pré-preenchidas
 - Seed demo no boot só com `SEED_DEMO_USER_ON_BOOT=true` (default false)
@@ -47,9 +49,10 @@ Este repo é o **produto Distac** e a **base web** para novos clientes Prottus.
 - Cache/fila só com evidência — ver `docs/projeto/escalabilidade.md`
 
 ## Domínio
-- Negócio: `cliente`, `produto`, `pedido`, `pedido_item`
-- Plataforma: `user`, `audit_log`
-- Status pedido: `rascunho` | `confirmado` | `cancelado`
+- Código/DB em **inglês**: `users`, `clients`, `products`, `orders`, `order_items`, `audit_log`
+- UI e docs de negócio em **português** (rotas de tela `/clientes`, `/pedidos`…)
+- Status pedido: `DRAFT` | `CONFIRMED` | `CANCELLED`
+- Pedido sempre ligado a `userId` (vendedor)
 
 ## Marca
 - Primário `#C02028` · Secundário `#60A0D8` · Header branco

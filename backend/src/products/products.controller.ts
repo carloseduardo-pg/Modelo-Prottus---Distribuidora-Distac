@@ -9,6 +9,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { parsePage } from '../common/pagination';
 import { CreateProductDto, UpdateProductDto } from './dto/product.dto';
 import { ProductsService } from './products.service';
 
@@ -28,8 +29,7 @@ export class ProductsController {
   ) {
     return this.products.findAll({
       search,
-      page: page ? Number(page) : undefined,
-      pageSize: pageSize ? Number(pageSize) : undefined,
+      ...parsePage(page, pageSize),
     });
   }
 

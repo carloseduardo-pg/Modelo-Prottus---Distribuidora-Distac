@@ -1,44 +1,56 @@
-/** Tipos de domínio espelhando a API Distac (valores Decimal vêm como string|number). */
-export type Cliente = {
+/** Domain types mirroring the Distac English API (Decimals may arrive as string|number). */
+
+export type Client = {
   id: string;
-  nome: string;
-  cnpj: string;
-  telefone: string | null;
+  name: string;
+  document: string;
+  phone: string | null;
   email: string | null;
-  cidade: string;
-  ativo: boolean;
+  city: string | null;
+  state: string | null;
+  active: boolean;
 };
 
-export type Produto = {
+export type Product = {
   id: string;
-  codigo: string;
-  nome: string;
-  unidade: string;
-  preco: string | number;
-  ativo: boolean;
+  sku: string;
+  name: string;
+  unit: string;
+  price: string | number;
+  active: boolean;
 };
 
-export type PedidoStatus = 'rascunho' | 'confirmado' | 'cancelado';
-
-export type PedidoItem = {
+export type User = {
   id: string;
-  produtoId: string;
-  quantidade: string | number;
-  precoUnitario: string | number;
-  subtotal: string | number;
-  produto?: Produto;
+  name: string;
+  email: string;
+  active: boolean;
 };
 
-export type Pedido = {
+export type OrderStatus = 'DRAFT' | 'CONFIRMED' | 'CANCELLED';
+
+export type OrderItem = {
   id: string;
-  clienteId: string;
-  data: string;
-  status: PedidoStatus;
-  observacao: string | null;
+  productId: string;
+  quantity: string | number;
+  unitPrice: string | number;
+  lineTotal: string | number;
+  product?: Pick<Product, 'id' | 'sku' | 'name' | 'unit'>;
+};
+
+export type Order = {
+  id: string;
+  number: string;
+  clientId: string;
+  userId: string;
+  orderedAt: string;
+  status: OrderStatus;
+  notes: string | null;
   total: string | number;
-  cliente?: Cliente | { id: string; nome: string } | null;
-  itens: PedidoItem[];
-  itensCount?: number;
+  client: Pick<Client, 'id' | 'name' | 'document'> | { id: string; name: string };
+  user?: Pick<User, 'id' | 'name' | 'email'>;
+  items: OrderItem[];
+  itemsCount?: number;
 };
 
 export type PageResult<T> = {
@@ -46,20 +58,20 @@ export type PageResult<T> = {
   total: number;
   page: number;
   pageSize: number;
-  totalPages: number;
+  totalPages?: number;
 };
 
 export type DashboardSummary = {
-  clientes: number;
-  produtos: number;
-  pedidos: number;
-  confirmados: number;
-  rascunhos: number;
-  cancelados: number;
-  recentes: Pedido[];
+  clients: number;
+  products: number;
+  orders: number;
+  confirmed: number;
+  drafts: number;
+  cancelled: number;
+  recent: Order[];
 };
 
-/** Formata valor monetário em pt-BR / BRL. */
+/** Formats a monetary value in pt-BR / BRL. */
 export function money(value: string | number) {
   const n = typeof value === 'string' ? Number(value) : value;
   return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });

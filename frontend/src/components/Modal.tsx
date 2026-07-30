@@ -1,18 +1,20 @@
 import type { ReactNode } from 'react';
 import './Modal.css';
 
-/** Dialog modal; clique no backdrop fecha; `wide` amplia o painel. */
+/** Dialog modal; clique no backdrop fecha; `wide` amplia o painel; `footer` ações. */
 export function Modal({
   title,
   open,
   onClose,
   children,
+  footer,
   wide,
 }: {
   title: string;
   open: boolean;
   onClose: () => void;
   children: ReactNode;
+  footer?: ReactNode;
   wide?: boolean;
 }) {
   if (!open) return null;
@@ -32,6 +34,7 @@ export function Modal({
           </button>
         </div>
         <div className="modal-body">{children}</div>
+        {footer ? <div className="modal-footer">{footer}</div> : null}
       </div>
     </div>
   );

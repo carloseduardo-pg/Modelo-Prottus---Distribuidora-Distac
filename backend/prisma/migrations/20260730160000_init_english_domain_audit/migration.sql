@@ -1,10 +1,3 @@
--- =============================================================================
--- Distac / Prottus — English domain schema + integrity/audit triggers
--- Source of truth also applied via Prisma migration
---   backend/prisma/migrations/20260730160000_init_english_domain_audit
--- orders.total and order_items.line_total are owned by PostgreSQL triggers.
--- =============================================================================
-
 -- Distac / Prottus base — clean English domain + audit + integrity triggers
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
